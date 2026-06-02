@@ -14,29 +14,11 @@ const hovered = computed(() => {
   <section
     v-if="mediums.length > 0"
     id="mediums"
-    style="
-      position: relative;
-      width: 100%;
-      min-height: 80vh;
-      background: #050A0F;
-      z-index: 4;
-      display: flex;
-      padding: 16vh 8vw;
-      gap: 8vw;
-    "
+    class="mediums-glossary"
   >
     <!-- Left — titles -->
-    <div style="flex: 0 0 50%">
-      <p
-        class="font-sans-body"
-        style="
-          font-size: 12px;
-          letter-spacing: 0.3em;
-          color: rgba(237,232,228,0.35);
-          text-transform: uppercase;
-          margin-bottom: 48px;
-        "
-      >
+    <div class="mediums-glossary__left">
+      <p class="font-sans-body mediums-glossary__label">
         {{ mediumsConfig.sectionLabel }}
       </p>
       <GooeyTextRow
@@ -50,46 +32,19 @@ const hovered = computed(() => {
     </div>
 
     <!-- Right — description on hover -->
-    <div
-      style="
-        flex: 1 1 50%;
-        display: flex;
-        align-items: center;
-        position: relative;
-      "
-    >
+    <div class="mediums-glossary__right">
       <div
-        style="
-          max-width: 420px;
-          transition: opacity 0.4s ease, transform 0.4s ease;
-        "
+        class="mediums-glossary__description"
         :style="{
           opacity: hovered ? 1 : 0,
           transform: hovered ? 'translateY(0)' : 'translateY(12px)'
         }"
       >
         <template v-if="hovered">
-          <p
-            class="font-sans-body"
-            style="
-              font-size: 12px;
-              letter-spacing: 0.25em;
-              color: #30B0D0;
-              text-transform: uppercase;
-              margin-bottom: 16px;
-            "
-          >
+          <p class="font-sans-body mediums-glossary__hover-en">
             {{ hovered.en }}
           </p>
-          <p
-            class="font-sans-body"
-            style="
-              font-size: 22px;
-              line-height: 2;
-              color: rgba(237,232,228,0.65);
-              font-weight: 300;
-            "
-          >
+          <p class="font-sans-body mediums-glossary__hover-desc">
             {{ hovered.description }}
           </p>
         </template>
@@ -97,3 +52,55 @@ const hovered = computed(() => {
     </div>
   </section>
 </template>
+
+<style scoped>
+.mediums-glossary {
+  position: relative;
+  width: 100%;
+  min-height: 80vh;
+  background: #050A0F;
+  z-index: 4;
+  display: flex;
+  padding: 16vh 8vw;
+  gap: 8vw;
+}
+
+.mediums-glossary__left {
+  flex: 0 0 50%;
+}
+
+.mediums-glossary__label {
+  font-size: 12px;
+  letter-spacing: 0.3em;
+  color: rgba(237,232,228,0.35);
+  text-transform: uppercase;
+  margin-bottom: 48px;
+}
+
+.mediums-glossary__right {
+  flex: 1 1 50%;
+  display: flex;
+  align-items: center;
+  position: relative;
+}
+
+.mediums-glossary__description {
+  max-width: 420px;
+  transition: opacity 0.4s ease, transform 0.4s ease;
+}
+
+.mediums-glossary__hover-en {
+  font-size: 12px;
+  letter-spacing: 0.25em;
+  color: #30B0D0;
+  text-transform: uppercase;
+  margin-bottom: 16px;
+}
+
+.mediums-glossary__hover-desc {
+  font-size: 22px;
+  line-height: 2;
+  color: rgba(237,232,228,0.65);
+  font-weight: 300;
+}
+</style>

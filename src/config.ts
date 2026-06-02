@@ -94,7 +94,7 @@ export const siteConfig: SiteConfig = {
 }
 
 export const navigationConfig: NavigationConfig = {
-  brandMark: '\u6816\u57DF',
+  brandMark: '\u81F3\u79BE',
   links: [
     { label: '\u6848\u4F8B', targetId: 'gallery' },
     { label: '\u7406\u5FF5', targetId: 'philosophy' },
@@ -104,7 +104,7 @@ export const navigationConfig: NavigationConfig = {
 }
 
 export const heroConfig: HeroConfig = {
-  wordmarkText: '\u6816\u57DF\u8BBE\u8BA1',
+  wordmarkText: '\u81F3\u79BE\u8BBE\u8BA1',
   eyebrow: 'KISSH HOME DESIGN',
   titleLine1: '\u91CD\u5851\u751F\u6D3B\u7684',
   titleLine2: '\u8FB9\u754C',
@@ -240,8 +240,8 @@ export const mediumsConfig: MediumsConfig = {
 }
 
 export const footerConfig: FooterConfig = {
-  visionText: '\u6211\u4EEC\u76F8\u4FE1\uFF0C\u6BCF\u4E00\u4E2A\u7A7A\u95F4\u90FD\u503C\u5F97\u88AB\u8BA4\u771F\u5BF9\u5F85\u3002\u5728\u6816\u57DF\u8BBE\u8BA1\uFF0C\u6211\u4EEC\u4E0D\u4EC5\u4EC5\u662F\u8BBE\u8BA1\u5E08\uFF0C\u66F4\u662F\u751F\u6D3B\u7F8E\u5B66\u7684\u63A2\u7D22\u8005\u3002\u4ECE\u6982\u5FF5\u7684\u840C\u82BD\u5230\u6700\u7EC8\u7684\u843D\u5730\uFF0C\u6211\u4EEC\u4EE5\u5320\u4EBA\u4E4B\u5FC3\uFF0C\u4E3A\u60A8\u6253\u9020\u72EC\u4E00\u65E0\u4E8C\u7684\u7CBE\u795E\u5C45\u6240\u3002',
-  brandName: '\u6816\u57DF\u8BBE\u8BA1',
+  visionText: '\u6211\u4EEC\u76F8\u4FE1\uFF0C\u6BCF\u4E00\u4E2A\u7A7A\u95F4\u90FD\u503C\u5F97\u88AB\u8BA4\u771F\u5BF9\u5F85\u3002\u5728\u81F3\u79BE\u8BBE\u8BA1\uFF0C\u6211\u4EEC\u4E0D\u4EC5\u4EC5\u662F\u8BBE\u8BA1\u5E08\uFF0C\u66F4\u662F\u751F\u6D3B\u7F8E\u5B66\u7684\u63A2\u7D22\u8005\u3002\u4ECE\u6982\u5FF5\u7684\u840C\u82BD\u5230\u6700\u7EC8\u7684\u843D\u5730\uFF0C\u6211\u4EEC\u4EE5\u5320\u4EBA\u4E4B\u5FC3\uFF0C\u4E3A\u60A8\u6253\u9020\u72EC\u4E00\u65E0\u4E8C\u7684\u7CBE\u795E\u5C45\u6240\u3002',
+  brandName: '\u81F3\u79BE\u8BBE\u8BA1',
   columns: [
     {
       heading: '\u5BFC\u822A',
@@ -264,13 +264,13 @@ export const footerConfig: FooterConfig = {
     {
       heading: '\u8054\u7CFB',
       entries: [
-        { text: '\u676D\u5DDE\u5E02\u897F\u6E56\u533A\n\u5929\u76EE\u5C71\u8DEF398\u53F7\n\u6816\u57DF\u8BBE\u8BA1\u4E2D\u5FC3 12F' },
+        { text: '\u676D\u5DDE\u5E02\u897F\u6E56\u533A\n\u5929\u76EE\u5C71\u8DEF398\u53F7\n\u81F3\u79BE\u8BBE\u8BA1\u4E2D\u5FC3 12F' },
         { text: 'hello@kissh-design.com', href: 'mailto:hello@kissh-design.com' },
         { text: '+86 571 8888 6666', href: 'tel:+8657188886666' },
       ],
     },
   ],
-  copyright: '\u00A9 2024 \u6816\u57DF\u8BBE\u8BA1 KISSH Design. All rights reserved.',
+  copyright: '\u00A9 2024 \u81F3\u79BE\u8BBE\u8BA1 KISSH Design. All rights reserved.',
   videoPath: '',
 }
 

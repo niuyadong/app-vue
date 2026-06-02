@@ -90,24 +90,24 @@ onUnmounted(() => {
     跳转到主内容
   </a>
   <div v-if="selectedProject && selectedProjectId">
-    <div style="position: relative">
+    <div class="app__detail">
       <FluidBackground :is-active="true" />
       <ProjectDetail :project="selectedProject" @back="handleBack" />
     </div>
   </div>
-  <div v-else style="position: relative">
+  <div v-else class="app__main">
     <FluidBackground :is-active="fluidActive" />
     <Navigation />
-    <div id="hero-section" style="position: relative; z-index: 1">
+    <div id="hero-section" class="app__hero">
       <HeroField />
     </div>
-    <div id="philosophy" style="position: relative; z-index: 2">
+    <div id="philosophy" class="app__philosophy">
       <PhilosophyCarousel />
     </div>
-    <div id="gallery" style="position: relative; z-index: 3">
+    <div id="gallery" class="app__gallery">
       <ImmersiveGallery @select="handleSelectProject" />
     </div>
-    <div style="position: relative; z-index: 50">
+    <div class="app__bottom">
       <div id="mediums">
         <MediumsGlossary />
       </div>
@@ -117,3 +117,33 @@ onUnmounted(() => {
     </div>
   </div>
 </template>
+
+<style scoped>
+.app__detail {
+  position: relative;
+}
+
+.app__main {
+  position: relative;
+}
+
+.app__hero {
+  position: relative;
+  z-index: 1;
+}
+
+.app__philosophy {
+  position: relative;
+  z-index: 2;
+}
+
+.app__gallery {
+  position: relative;
+  z-index: 3;
+}
+
+.app__bottom {
+  position: relative;
+  z-index: 50;
+}
+</style>

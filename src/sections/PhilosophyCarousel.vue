@@ -84,67 +84,27 @@ const radius = 280
 <template>
   <section
     ref="sectionRef"
-    style="position: relative; width: 100%; overflow: hidden"
+    class="philosophy-carousel"
   >
-    <div
-      style="
-        width: 100%;
-        min-height: 100vh;
-        background: transparent;
-        display: flex;
-      "
-    >
+    <div class="philosophy-carousel__container">
       <!-- Left 30% — text panel -->
-      <div style="flex: 0 0 30%; position: relative">
-        <div
-          style="
-            position: sticky;
-            top: 0;
-            height: 100vh;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            padding: 0 5vw 0 4vw;
-          "
-        >
+      <div class="philosophy-carousel__left">
+        <div class="philosophy-carousel__text-panel">
           <p
             v-if="philosophyConfig.eyebrow"
-            class="font-sans-body"
-            style="
-              font-size: 13px;
-              letter-spacing: 0.25em;
-              color: rgba(255,255,255,0.7);
-              text-transform: uppercase;
-              margin-bottom: 24px;
-              text-shadow: 0 2px 24px rgba(0,0,0,0.45);
-            "
+            class="font-sans-body philosophy-carousel__eyebrow"
           >
             {{ philosophyConfig.eyebrow }}
           </p>
           <h2
             v-if="philosophyConfig.title"
-            class="font-serif-display"
-            style="
-              font-size: clamp(28px, 2.5vw, 42px);
-              font-weight: 300;
-              line-height: 1.35;
-              color: #ffffff;
-              margin-bottom: 28px;
-              text-shadow: 0 2px 24px rgba(0,0,0,0.45);
-            "
+            class="font-serif-display philosophy-carousel__title"
           >
             {{ philosophyConfig.title }}
           </h2>
           <p
             v-if="philosophyConfig.body"
-            class="font-sans-body"
-            style="
-              font-size: 15px;
-              line-height: 2;
-              color: rgba(255,255,255,0.8);
-              font-weight: 300;
-              text-shadow: 0 2px 24px rgba(0,0,0,0.45);
-            "
+            class="font-sans-body philosophy-carousel__body"
           >
             {{ philosophyConfig.body }}
           </p>
@@ -152,60 +112,22 @@ const radius = 280
       </div>
 
       <!-- Right 70% — rolling text ring -->
-      <div style="flex: 0 0 70%; position: relative">
-        <div
-          style="
-            position: sticky;
-            top: 0;
-            width: 100%;
-            height: 100vh;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            padding-top: 6vh;
-            perspective: 1000px;
-            perspective-origin: 50% 55%;
-          "
-        >
+      <div class="philosophy-carousel__right">
+        <div class="philosophy-carousel__stage">
           <div
             ref="ringRef"
-            style="
-              position: relative;
-              width: 100%;
-              height: 560px;
-              transform-style: preserve-3d;
-            "
+            class="philosophy-carousel__ring"
           >
             <div
               v-for="(word, i) in [...WORDS, ...WORDS]"
               :key="`${word}-${i}`"
               data-ring-item
-              style="
-                position: absolute;
-                width: 100%;
-                text-align: center;
-                left: 0;
-                top: 50%;
-                backface-visibility: hidden;
-                will-change: filter;
-              "
+              class="philosophy-carousel__ring-item"
               :style="{
                 transform: `rotateX(${i * angleStep}deg) translateZ(${radius}px) translateY(-50%)`
               }"
             >
-              <span
-                style="
-                  display: inline-block;
-                  font-family: 'Noto Serif SC', Georgia, serif;
-                  font-size: clamp(42px, 8vw, 100px);
-                  font-weight: 300;
-                  color: #ffffff;
-                  letter-spacing: 0.06em;
-                  line-height: 1.1;
-                  will-change: transform;
-                  text-shadow: 0 2px 30px rgba(0,0,0,0.55);
-                "
-              >
+              <span class="philosophy-carousel__word">
                 {{ word }}
               </span>
             </div>
@@ -215,3 +137,106 @@ const radius = 280
     </div>
   </section>
 </template>
+
+<style scoped>
+.philosophy-carousel {
+  position: relative;
+  width: 100%;
+  overflow: hidden;
+}
+
+.philosophy-carousel__container {
+  width: 100%;
+  min-height: 100vh;
+  background: transparent;
+  display: flex;
+}
+
+.philosophy-carousel__left {
+  flex: 0 0 30%;
+  position: relative;
+}
+
+.philosophy-carousel__text-panel {
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 0 5vw 0 4vw;
+}
+
+.philosophy-carousel__eyebrow {
+  font-size: 13px;
+  letter-spacing: 0.25em;
+  color: rgba(255,255,255,0.7);
+  text-transform: uppercase;
+  margin-bottom: 24px;
+  text-shadow: 0 2px 24px rgba(0,0,0,0.45);
+}
+
+.philosophy-carousel__title {
+  font-size: clamp(28px, 2.5vw, 42px);
+  font-weight: 300;
+  line-height: 1.35;
+  color: #ffffff;
+  margin-bottom: 28px;
+  text-shadow: 0 2px 24px rgba(0,0,0,0.45);
+}
+
+.philosophy-carousel__body {
+  font-size: 15px;
+  line-height: 2;
+  color: rgba(255,255,255,0.8);
+  font-weight: 300;
+  text-shadow: 0 2px 24px rgba(0,0,0,0.45);
+}
+
+.philosophy-carousel__right {
+  flex: 0 0 70%;
+  position: relative;
+}
+
+.philosophy-carousel__stage {
+  position: sticky;
+  top: 0;
+  width: 100%;
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding-top: 6vh;
+  perspective: 1000px;
+  perspective-origin: 50% 55%;
+}
+
+.philosophy-carousel__ring {
+  position: relative;
+  width: 100%;
+  height: 560px;
+  transform-style: preserve-3d;
+}
+
+.philosophy-carousel__ring-item {
+  position: absolute;
+  width: 100%;
+  text-align: center;
+  left: 0;
+  top: 50%;
+  backface-visibility: hidden;
+  will-change: filter;
+}
+
+.philosophy-carousel__word {
+  display: inline-block;
+  font-family: 'Noto Serif SC', Georgia, serif;
+  font-size: clamp(42px, 8vw, 100px);
+  font-weight: 300;
+  color: #ffffff;
+  letter-spacing: 0.06em;
+  line-height: 1.1;
+  will-change: transform;
+  text-shadow: 0 2px 30px rgba(0,0,0,0.55);
+}
+</style>

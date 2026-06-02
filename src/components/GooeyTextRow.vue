@@ -74,18 +74,13 @@ const onLeave = () => {
 
 <template>
   <div
-    style="
-      cursor: pointer;
-      border-bottom: 1px solid rgba(255,255,255,0.08);
-      padding: 28px 0;
-      transition: border-color 0.4s;
-    "
+    class="gooey-text-row"
     @mouseenter="onEnter"
     @mouseleave="onLeave"
   >
     <svg
+      class="gooey-text-row__svg"
       viewBox="0 0 400 50"
-      style="width: 100%; max-width: 500px; height: 50px; overflow: visible"
       preserveAspectRatio="xMinYMid meet"
     >
       <defs>
@@ -134,3 +129,19 @@ const onLeave = () => {
     </svg>
   </div>
 </template>
+
+<style scoped>
+.gooey-text-row {
+  cursor: pointer;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  padding: 28px 0;
+  transition: border-color 0.4s;
+}
+
+.gooey-text-row__svg {
+  width: 100%;
+  max-width: 500px;
+  height: 50px;
+  overflow: visible;
+}
+</style>

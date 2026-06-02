@@ -14,178 +14,56 @@ const textShadow = '0 2px 24px rgba(0,0,0,0.45)'
 </script>
 
 <template>
-  <div
-    style="
-      position: relative;
-      z-index: 10;
-      min-height: 100vh;
-      width: 100%;
-      color: #ffffff;
-    "
-  >
+  <div class="project-detail">
     <!-- Top bar -->
-    <div
-      style="
-        position: sticky;
-        top: 0;
-        z-index: 20;
-        padding: 28px 4vw;
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        backdrop-filter: blur(8px);
-        -webkit-backdrop-filter: blur(8px);
-        background: rgba(5,10,15,0.25);
-      "
-    >
+    <div class="project-detail__topbar">
       <button
-        class="font-sans-body"
-        style="
-          background: transparent;
-          border: 1px solid rgba(255,255,255,0.4);
-          color: #ffffff;
-          font-size: 11px;
-          letter-spacing: 0.25em;
-          text-transform: uppercase;
-          padding: 10px 22px;
-          border-radius: 30px;
-          cursor: pointer;
-          text-shadow: v-bind(textShadow);
-        "
+        class="font-sans-body project-detail__back-btn"
         @click="emit('back')"
       >
         {{ projectDetailConfig.backLabel || '←' }}
       </button>
-      <div
-        class="font-sans-body"
-        style="
-          font-size: 10px;
-          letter-spacing: 0.3em;
-          color: rgba(255,255,255,0.65);
-          text-transform: uppercase;
-          text-shadow: v-bind(textShadow);
-        "
-      >
+      <div class="font-sans-body project-detail__id">
         {{ project.id }} / {{ project.year }}
       </div>
     </div>
 
     <!-- Content — left article / right image -->
-    <div
-      style="
-        display: grid;
-        grid-template-columns: 1.2fr 1fr;
-        gap: 6vw;
-        padding: 6vh 5vw 12vh;
-        align-items: start;
-      "
-      class="project-detail-grid"
-    >
+    <div class="project-detail__grid">
       <!-- Left — article -->
-      <article style="max-width: 560px">
-        <div
-          class="font-sans-body"
-          style="
-            font-size: 10px;
-            letter-spacing: 0.3em;
-            color: rgba(255,255,255,0.6);
-            text-transform: uppercase;
-            margin-bottom: 18px;
-            text-shadow: v-bind(textShadow);
-          "
-        >
+      <article class="project-detail__article">
+        <div class="font-sans-body project-detail__location">
           {{ project.location }} · {{ project.year }}
         </div>
-        <h1
-          class="font-serif-display"
-          style="
-            font-size: clamp(36px, 5vw, 72px);
-            font-weight: 200;
-            letter-spacing: 0.06em;
-            line-height: 1.1;
-            margin: 0;
-            margin-bottom: 24px;
-            color: #ffffff;
-            text-shadow: v-bind(textShadow);
-          "
-        >
+        <h1 class="font-serif-display project-detail__title">
           {{ project.title }}
         </h1>
-        <p
-          class="font-serif-display"
-          style="
-            font-size: clamp(16px, 1.4vw, 20px);
-            font-weight: 300;
-            line-height: 1.6;
-            color: rgba(255,255,255,0.82);
-            font-style: italic;
-            margin: 0;
-            margin-bottom: 48px;
-            text-shadow: v-bind(textShadow);
-          "
-        >
+        <p class="font-serif-display project-detail__subtitle">
           {{ project.subtitle }}
         </p>
 
         <!-- Meta rows -->
-        <div
-          style="
-            display: flex;
-            flex-direction: column;
-            gap: 10px;
-            margin-bottom: 48px;
-            padding-top: 20px;
-            padding-bottom: 24px;
-            border-top: 1px solid rgba(255,255,255,0.18);
-            border-bottom: 1px solid rgba(255,255,255,0.18);
-          "
-        >
+        <div class="project-detail__meta-rows">
           <div
             v-for="m in project.meta"
             :key="m.label"
-            style="display: flex; justify-content: space-between; gap: 20px"
+            class="project-detail__meta-row"
           >
-            <span
-              class="font-sans-body"
-              style="
-                font-size: 10px;
-                letter-spacing: 0.25em;
-                color: rgba(255,255,255,0.55);
-                text-transform: uppercase;
-                text-shadow: v-bind(textShadow);
-              "
-            >
+            <span class="font-sans-body project-detail__meta-label">
               {{ m.label }}
             </span>
-            <span
-              class="font-sans-body"
-              style="
-                font-size: 12px;
-                letter-spacing: 0.12em;
-                color: rgba(255,255,255,0.88);
-                text-align: right;
-                text-shadow: v-bind(textShadow);
-              "
-            >
+            <span class="font-sans-body project-detail__meta-value">
               {{ m.value }}
             </span>
           </div>
         </div>
 
         <!-- Body paragraphs -->
-        <div style="display: flex; flex-direction: column; gap: 24px">
+        <div class="project-detail__body">
           <p
             v-for="(p, idx) in project.paragraphs"
             :key="idx"
-            class="font-sans-body"
-            style="
-              font-size: 15px;
-              line-height: 2;
-              font-weight: 300;
-              color: rgba(255,255,255,0.82);
-              margin: 0;
-              text-shadow: v-bind(textShadow);
-            "
+            class="font-sans-body project-detail__paragraph"
           >
             {{ p }}
           </p>
@@ -193,36 +71,173 @@ const textShadow = '0 2px 24px rgba(0,0,0,0.45)'
       </article>
 
       <!-- Right — image, sticky so it stays in view while article scrolls -->
-      <div
-        style="
-          position: sticky;
-          top: 120px;
-          width: 100%;
-          max-width: 420px;
-          justify-self: center;
-        "
-      >
-        <div
-          style="
-            width: 100%;
-            aspect-ratio: 1024 / 1536;
-            overflow: hidden;
-          "
-        >
+      <div class="project-detail__image-wrapper">
+        <div class="project-detail__image-container">
           <img
             :src="project.image"
             :alt="project.title"
             width="420"
             height="630"
-            style="
-              width: 100%;
-              height: 100%;
-              object-fit: cover;
-              display: block;
-            "
+            class="project-detail__image"
           />
         </div>
       </div>
     </div>
   </div>
 </template>
+
+<style scoped>
+.project-detail {
+  position: relative;
+  z-index: 10;
+  min-height: 100vh;
+  width: 100%;
+  color: #ffffff;
+}
+
+.project-detail__topbar {
+  position: sticky;
+  top: 0;
+  z-index: 20;
+  padding: 28px 4vw;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  background: rgba(5, 10, 15, 0.25);
+}
+
+.project-detail__back-btn {
+  background: transparent;
+  border: 1px solid rgba(255, 255, 255, 0.4);
+  color: #ffffff;
+  font-size: 11px;
+  letter-spacing: 0.25em;
+  text-transform: uppercase;
+  padding: 10px 22px;
+  border-radius: 30px;
+  cursor: pointer;
+  text-shadow: v-bind(textShadow);
+}
+
+.project-detail__id {
+  font-size: 10px;
+  letter-spacing: 0.3em;
+  color: rgba(255, 255, 255, 0.65);
+  text-transform: uppercase;
+  text-shadow: v-bind(textShadow);
+}
+
+.project-detail__grid {
+  display: grid;
+  grid-template-columns: 1.2fr 1fr;
+  gap: 6vw;
+  padding: 6vh 5vw 12vh;
+  align-items: start;
+}
+
+.project-detail__article {
+  max-width: 560px;
+}
+
+.project-detail__location {
+  font-size: 10px;
+  letter-spacing: 0.3em;
+  color: rgba(255, 255, 255, 0.6);
+  text-transform: uppercase;
+  margin-bottom: 18px;
+  text-shadow: v-bind(textShadow);
+}
+
+.project-detail__title {
+  font-size: clamp(36px, 5vw, 72px);
+  font-weight: 200;
+  letter-spacing: 0.06em;
+  line-height: 1.1;
+  margin: 0;
+  margin-bottom: 24px;
+  color: #ffffff;
+  text-shadow: v-bind(textShadow);
+}
+
+.project-detail__subtitle {
+  font-size: clamp(16px, 1.4vw, 20px);
+  font-weight: 300;
+  line-height: 1.6;
+  color: rgba(255, 255, 255, 0.82);
+  font-style: italic;
+  margin: 0;
+  margin-bottom: 48px;
+  text-shadow: v-bind(textShadow);
+}
+
+.project-detail__meta-rows {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-bottom: 48px;
+  padding-top: 20px;
+  padding-bottom: 24px;
+  border-top: 1px solid rgba(255, 255, 255, 0.18);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.18);
+}
+
+.project-detail__meta-row {
+  display: flex;
+  justify-content: space-between;
+  gap: 20px;
+}
+
+.project-detail__meta-label {
+  font-size: 10px;
+  letter-spacing: 0.25em;
+  color: rgba(255, 255, 255, 0.55);
+  text-transform: uppercase;
+  text-shadow: v-bind(textShadow);
+}
+
+.project-detail__meta-value {
+  font-size: 12px;
+  letter-spacing: 0.12em;
+  color: rgba(255, 255, 255, 0.88);
+  text-align: right;
+  text-shadow: v-bind(textShadow);
+}
+
+.project-detail__body {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.project-detail__paragraph {
+  font-size: 15px;
+  line-height: 2;
+  font-weight: 300;
+  color: rgba(255, 255, 255, 0.82);
+  margin: 0;
+  text-shadow: v-bind(textShadow);
+}
+
+.project-detail__image-wrapper {
+  position: sticky;
+  top: 120px;
+  width: 100%;
+  max-width: 420px;
+  justify-self: center;
+}
+
+.project-detail__image-container {
+  width: 100%;
+  aspect-ratio: 1024 / 1536;
+  overflow: hidden;
+}
+
+.project-detail__image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+</style>

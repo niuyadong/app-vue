@@ -348,6 +348,17 @@ onUnmounted(() => {
 <template>
   <div
     ref="containerRef"
-    style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: 0"
+    class="fluid-background"
   />
 </template>
+
+<style scoped>
+.fluid-background {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 0;
+}
+</style>
