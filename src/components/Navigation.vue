@@ -72,5 +72,17 @@ const onNavLeave = (e: MouseEvent) => {
   text-shadow: v-bind(textShadow);
   transition: color 0.3s ease;
   pointer-events: auto;
+  outline: none;
+}
+
+.site-nav__link:focus-visible {
+  color: #ffffff;
+  text-decoration: underline;
+  text-underline-offset: 4px;
+}
+
+.site-nav__brand:focus-visible {
+  outline: 1px solid rgba(255,255,255,0.5);
+  outline-offset: 4px;
 }
 </style>

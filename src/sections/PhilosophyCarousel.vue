@@ -193,6 +193,44 @@ const radius = 280
   text-shadow: 0 2px 24px rgba(0,0,0,0.45);
 }
 
+@media (max-width: 768px) {
+  .philosophy-carousel__container {
+    flex-direction: column;
+    min-height: auto;
+  }
+
+  .philosophy-carousel__left {
+    flex: none;
+    width: 100%;
+  }
+
+  .philosophy-carousel__text-panel {
+    position: relative;
+    height: auto;
+    min-height: auto;
+    padding: 10vh 6vw 6vh;
+  }
+
+  .philosophy-carousel__right {
+    flex: none;
+    width: 100%;
+    min-height: 60vh;
+  }
+
+  .philosophy-carousel__stage {
+    padding-top: 4vh;
+    padding-bottom: 10vh;
+  }
+
+  .philosophy-carousel__title {
+    font-size: clamp(24px, 6vw, 32px);
+  }
+
+  .philosophy-carousel__eyebrow {
+    font-size: 11px;
+  }
+}
+
 .philosophy-carousel__right {
   flex: 0 0 70%;
   position: relative;

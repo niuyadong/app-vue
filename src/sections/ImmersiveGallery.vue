@@ -164,6 +164,12 @@ const onTitleLeave = (e: MouseEvent) => {
   cursor: pointer;
 }
 
+.immersive-gallery__image-wrapper:focus-visible,
+.immersive-gallery__project-title:focus-visible {
+  outline: 1px solid rgba(255,255,255,0.5);
+  outline-offset: 4px;
+}
+
 .immersive-gallery__image {
   width: 100%;
   height: 100%;

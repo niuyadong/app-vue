@@ -100,10 +100,10 @@ const handleLeave = (e: MouseEvent) => {
 }
 
 .hero-field__title {
-  font-size: clamp(48px, 7vw, 112px);
+  font-size: clamp(48px, 7vw, 96px);
   font-weight: 300;
   color: #ffffff;
-  letter-spacing: 0.15em;
+  letter-spacing: 0.12em;
   text-shadow: v-bind(textShadow);
   margin: 0;
 }
@@ -163,5 +163,39 @@ const handleLeave = (e: MouseEvent) => {
   backdrop-filter: blur(6px);
   -webkit-backdrop-filter: blur(6px);
   margin-left: 60px;
+  outline: none;
+}
+
+.hero-field__cta:focus-visible {
+  background: rgba(255, 255, 255, 0.18);
+  border-color: rgba(255, 255, 255, 0.8);
+  outline: 1px solid rgba(255, 255, 255, 0.4);
+  outline-offset: 4px;
+}
+
+@media (max-width: 768px) {
+  .hero-field__grid {
+    grid-template-columns: 1fr;
+    padding: 0 6vw;
+    gap: 4vh;
+    padding-top: 12vh;
+    padding-bottom: 8vh;
+  }
+
+  .hero-field__title {
+    font-size: clamp(36px, 12vw, 64px);
+    letter-spacing: 0.1em;
+  }
+
+  .hero-field__eyebrow,
+  .hero-field__headline,
+  .hero-field__description,
+  .hero-field__cta {
+    margin-left: 0;
+  }
+
+  .hero-field__headline {
+    font-size: clamp(24px, 8vw, 36px);
+  }
 }
 </style>

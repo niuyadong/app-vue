@@ -143,7 +143,7 @@ const onLinkLeave = (e: MouseEvent) => {
 .site-footer__col-heading {
   font-size: 11px;
   letter-spacing: 0.25em;
-  color: rgba(237,232,228,0.3);
+  color: rgba(237,232,228,0.65);
   text-transform: uppercase;
   margin-bottom: 16px;
 }
@@ -156,7 +156,7 @@ const onLinkLeave = (e: MouseEvent) => {
 
 .site-footer__link {
   color: #EDE8E4;
-  opacity: 0.6;
+  opacity: 0.75;
   font-size: 15px;
   text-decoration: none;
   line-height: 1.8;
@@ -166,7 +166,7 @@ const onLinkLeave = (e: MouseEvent) => {
 
 .site-footer__link-text {
   color: #EDE8E4;
-  opacity: 0.6;
+  opacity: 0.75;
   font-size: 15px;
   line-height: 1.8;
   white-space: pre-line;
@@ -187,6 +187,6 @@ const onLinkLeave = (e: MouseEvent) => {
 
 .site-footer__copyright {
   font-size: 12px;
-  color: rgba(237,232,228,0.25);
+  color: rgba(237,232,228,0.45);
 }
 </style>
