@@ -269,10 +269,13 @@ onMounted(() => {
 
   const startTime = performance.now()
 
-  const animate = () => {
+  const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)')
+
+const animate = () => {
     animFrameId = requestAnimationFrame(animate)
 
     if (!isActiveRef.value) return
+    if (prefersReducedMotion.matches) return
 
     const elapsed = (performance.now() - startTime) / 1000
 

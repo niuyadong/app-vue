@@ -79,6 +79,7 @@ const textShadow = '0 2px 24px rgba(0,0,0,0.45)'
         padding: 6vh 5vw 12vh;
         align-items: start;
       "
+      class="project-detail-grid"
     >
       <!-- Left — article -->
       <article style="max-width: 560px">
@@ -211,6 +212,8 @@ const textShadow = '0 2px 24px rgba(0,0,0,0.45)'
           <img
             :src="project.image"
             :alt="project.title"
+            width="420"
+            height="630"
             style="
               width: 100%;
               height: 100%;

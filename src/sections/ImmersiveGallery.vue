@@ -93,6 +93,8 @@ const onTitleLeave = (e: MouseEvent) => {
             <img
               :src="project.image"
               :alt="project.title"
+              width="600"
+              height="900"
               style="
                 width: 100%;
                 height: 100%;

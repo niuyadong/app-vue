@@ -42,6 +42,7 @@ const handleLeave = (e: MouseEvent) => {
         padding: 0 6vw;
         gap: 6vw;
       "
+      class="hero-grid"
     >
       <div style="display: flex; align-items: center; justify-content: center">
         <h2
@@ -121,10 +122,12 @@ const handleLeave = (e: MouseEvent) => {
           {{ heroConfig.descriptionLine2 }}
         </p>
 
-        <button
-          v-if="heroConfig.ctaText"
+        <a
+          v-if="heroConfig.ctaText && heroConfig.ctaTargetId"
+          :href="`#${heroConfig.ctaTargetId}`"
           class="font-sans-body"
           style="
+            display: inline-block;
             background: rgba(255,255,255,0.08);
             border: 1px solid rgba(255,255,255,0.5);
             border-radius: 40px;
@@ -133,17 +136,17 @@ const handleLeave = (e: MouseEvent) => {
             font-size: 13px;
             letter-spacing: 0.15em;
             cursor: pointer;
-            transition: all 0.3s ease;
+            text-decoration: none;
+            transition: background 0.3s ease, border-color 0.3s ease;
             backdrop-filter: blur(6px);
             -webkit-backdrop-filter: blur(6px);
             margin-left: 60px;
           "
-          @click="handleCta"
           @mouseenter="handleEnter"
           @mouseleave="handleLeave"
         >
           {{ heroConfig.ctaText }}
-        </button>
+        </a>
       </div>
     </div>
   </section>

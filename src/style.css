@@ -57,4 +57,43 @@
   .font-sans-body {
     font-family: 'Noto Sans SC', 'Helvetica Neue', Arial, sans-serif;
   }
+
+  .skip-link {
+    position: fixed;
+    top: -40px;
+    left: 0;
+    z-index: 9999;
+    background: #ffffff;
+    color: #050A0F;
+    padding: 8px 16px;
+    font-size: 13px;
+    text-decoration: none;
+    transition: top 0.2s;
+  }
+
+  .skip-link:focus {
+    top: 0;
+  }
+}
+
+/* Reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* Responsive grids */
+@media (max-width: 768px) {
+  .project-detail-grid {
+    grid-template-columns: 1fr !important;
+  }
+
+  .hero-grid {
+    grid-template-columns: 1fr !important;
+    padding-top: 80px !important;
+  }
 }

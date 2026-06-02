@@ -3,6 +3,13 @@ import { navigationConfig } from '../config'
 
 const textShadow = '0 2px 24px rgba(0,0,0,0.45)'
 const links = navigationConfig.links
+
+const onNavEnter = (e: MouseEvent) => {
+  ;(e.target as HTMLElement).style.color = '#ffffff'
+}
+const onNavLeave = (e: MouseEvent) => {
+  ;(e.target as HTMLElement).style.color = 'rgba(255,255,255,0.85)'
+}
 </script>
 
 <template>
@@ -50,8 +57,8 @@ const links = navigationConfig.links
           transition: color 0.3s ease;
           pointer-events: auto;
         "
-        @mouseenter="(e: MouseEvent) => { (e.target as HTMLElement).style.color = '#ffffff' }"
-        @mouseleave="(e: MouseEvent) => { (e.target as HTMLElement).style.color = 'rgba(255,255,255,0.85)' }"
+        @mouseenter="onNavEnter"
+        @mouseleave="onNavLeave"
       >
         {{ link.label }}
       </a>

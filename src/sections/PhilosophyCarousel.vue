@@ -12,13 +12,14 @@ const ringRef = ref<HTMLDivElement | null>(null)
 const rotation = ref({ value: 0 })
 const speed = ref({ value: 0 })
 let rafId = 0
+let gsapCtx: gsap.Context | null = null
 
 onMounted(() => {
   const section = sectionRef.value
   const ring = ringRef.value
   if (!section || !ring) return
 
-  const ctx = gsap.context(() => {
+  gsapCtx = gsap.context(() => {
     gsap.to(rotation.value, {
       value: 360,
       ease: 'none',
@@ -36,9 +37,16 @@ onMounted(() => {
 
   let currentRotation = 0
   let currentSpeed = 0
+  const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)')
 
   const animateRing = () => {
     rafId = requestAnimationFrame(animateRing)
+
+    if (prefersReducedMotion.matches) {
+      ring.style.transform = 'rotateX(0deg)'
+      return
+    }
+
     currentRotation += (rotation.value.value - currentRotation) * 0.08
     currentSpeed += (speed.value.value - currentSpeed) * 0.1
     speed.value.value *= 0.95
@@ -61,13 +69,11 @@ onMounted(() => {
   }
 
   animateRing()
-
-  })
 })
 
 onUnmounted(() => {
   cancelAnimationFrame(rafId)
-  // cleanup 逻辑应在 onUnmounted 中执行
+  gsapCtx?.revert()
 })
 
 const totalItems = WORDS.length * 2

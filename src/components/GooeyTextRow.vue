@@ -53,11 +53,13 @@ onUnmounted(() => {
   if (tl) tl.kill()
 })
 
+const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)')
+
 const onEnter = () => {
   if (textsGroupRef.value) {
     textsGroupRef.value.style.filter = `url(#${props.filterId})`
   }
-  if (tl) tl.play()
+  if (tl && !prefersReducedMotion.matches) tl.play()
   emit('hover')
 }
 
@@ -65,7 +67,7 @@ const onLeave = () => {
   if (textsGroupRef.value) {
     textsGroupRef.value.style.filter = `url(#${props.filterId})`
   }
-  if (tl) tl.reverse()
+  if (tl && !prefersReducedMotion.matches) tl.reverse()
   emit('leaveHover')
 }
 </script>

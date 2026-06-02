@@ -38,7 +38,12 @@ const handleBack = () => {
 let lenis: Lenis | null = null
 
 onMounted(() => {
-  lenis = new Lenis({ lerp: 0.05 })
+  const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)')
+
+  lenis = new Lenis({
+    lerp: prefersReducedMotion.matches ? 1 : 0.05,
+    smoothWheel: !prefersReducedMotion.matches,
+  })
 
   lenis.on('scroll', ScrollTrigger.update)
 
@@ -80,20 +85,7 @@ onUnmounted(() => {
 <template>
   <a
     href="#hero-section"
-    style="
-      position: fixed;
-      top: -40px;
-      left: 0;
-      z-index: 9999;
-      background: #ffffff;
-      color: #050A0F;
-      padding: 8px 16px;
-      font-size: 13px;
-      text-decoration: none;
-      transition: top 0.2s;
-    "
-    @focus="(e: FocusEvent) => { (e.target as HTMLElement).style.top = '0px' }"
-    @blur="(e: FocusEvent) => { (e.target as HTMLElement).style.top = '-40px' }"
+    class="skip-link"
   >
     跳转到主内容
   </a>
