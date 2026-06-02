@@ -89,8 +89,8 @@ export interface ProjectDetailConfig {
 
 export const siteConfig: SiteConfig = {
   language: 'zh-CN',
-  siteTitle: '栖域设计 \u2014 高端室内空间设计',
-  siteDescription: '栖域设计是一家专注于高端私宅、艺术空间与商业空间的室内设计事务所。以极简主义与东方侘寂美学为设计哲学，为您重塑生活的边界。',
+  siteTitle: '至禾设计 \u2014 高端室内空间设计',
+  siteDescription: '至禾设计是一家专注于高端私宅、艺术空间与商业空间的室内设计事务所。以极简主义与东方侘寂美学为设计哲学，为您重塑生活的边界。',
 }
 
 export const navigationConfig: NavigationConfig = {
