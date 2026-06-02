@@ -25,7 +25,7 @@ test.describe('首页导航', () => {
   })
 
   test('画廊区域显示项目卡片', async ({ page }) => {
-    const projects = page.locator('#gallery h3')
+    const projects = page.locator('.immersive-gallery__project-title')
     await expect(projects.first()).toBeVisible()
     const count = await projects.count()
     expect(count).toBeGreaterThan(0)
@@ -38,7 +38,7 @@ test.describe('项目详情页交互', () => {
   })
 
   test('点击项目标题进入详情页', async ({ page }) => {
-    const firstProjectTitle = page.locator('#gallery h3').first()
+    const firstProjectTitle = page.locator('.immersive-gallery__project-title').first()
     const titleText = await firstProjectTitle.textContent()
 
     await firstProjectTitle.click()
@@ -60,6 +60,6 @@ test.describe('项目详情页交互', () => {
     await backButton.click()
 
     // 回到首页后应再次看到画廊区域
-    await expect(page.locator('#gallery h3').first()).toBeVisible()
+    await expect(page.locator('.immersive-gallery__project-title').first()).toBeVisible()
   })
 })

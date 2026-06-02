@@ -119,6 +119,7 @@ const textShadow = '0 2px 24px rgba(0,0,0,0.45)'
   border-radius: 30px;
   cursor: pointer;
   text-shadow: v-bind(textShadow);
+  min-height: 44px;
 }
 
 .project-detail__id {

@@ -1,9 +1,8 @@
 <script setup lang="ts">
-import { ref, computed, onMounted, onUnmounted } from 'vue'
+import { ref, computed, onMounted, onUnmounted, defineAsyncComponent } from 'vue'
 import Lenis from '@studio-freight/lenis'
 import gsap from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
-import FluidBackground from './components/FluidBackground.vue'
 import Navigation from './components/Navigation.vue'
 import HeroField from './sections/HeroField.vue'
 import PhilosophyCarousel from './sections/PhilosophyCarousel.vue'
@@ -12,6 +11,8 @@ import MediumsGlossary from './sections/MediumsGlossary.vue'
 import Footer from './sections/Footer.vue'
 import ProjectDetail from './pages/ProjectDetail.vue'
 import { getProjectById } from './config'
+
+const FluidBackground = defineAsyncComponent(() => import('./components/FluidBackground.vue'))
 
 gsap.registerPlugin(ScrollTrigger)
 
@@ -36,6 +37,8 @@ const handleBack = () => {
 }
 
 let lenis: Lenis | null = null
+let observer: IntersectionObserver | null = null
+let tickerCallback: ((time: number) => void) | null = null
 
 onMounted(() => {
   const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)')
@@ -47,9 +50,10 @@ onMounted(() => {
 
   lenis.on('scroll', ScrollTrigger.update)
 
-  gsap.ticker.add((time) => {
+  tickerCallback = (time: number) => {
     lenis?.raf(time * 1000)
-  })
+  }
+  gsap.ticker.add(tickerCallback)
   gsap.ticker.lagSmoothing(0)
 
   // IntersectionObserver for fluid background
@@ -59,7 +63,7 @@ onMounted(() => {
     const galleryEl = document.getElementById('gallery')
     if (heroEl && philEl && galleryEl) {
       const visibility = { hero: true, phil: false, gallery: false }
-      const observer = new IntersectionObserver(
+      observer = new IntersectionObserver(
         (entries) => {
           entries.forEach((entry) => {
             if (entry.target === heroEl) visibility.hero = entry.isIntersecting
@@ -78,7 +82,10 @@ onMounted(() => {
 })
 
 onUnmounted(() => {
+  if (tickerCallback) gsap.ticker.remove(tickerCallback)
+  observer?.disconnect()
   lenis?.destroy()
+  lenis = null
 })
 </script>
 

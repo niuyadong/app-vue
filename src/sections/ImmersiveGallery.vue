@@ -59,7 +59,11 @@ const onTitleLeave = (e: MouseEvent) => {
         <div class="immersive-gallery__project-inner">
           <div
             class="immersive-gallery__image-wrapper"
+            tabindex="0"
+            role="button"
             @click="emit('select', project.id)"
+            @keydown.enter="emit('select', project.id)"
+            @keydown.space.prevent="emit('select', project.id)"
           >
             <img
               :src="project.image"
@@ -81,14 +85,14 @@ const onTitleLeave = (e: MouseEvent) => {
               >
                 {{ project.id }}
               </div>
-              <h3
+              <button
                 class="font-serif-display immersive-gallery__project-title"
                 @click="emit('select', project.id)"
                 @mouseenter="onTitleEnter"
                 @mouseleave="onTitleLeave"
               >
                 {{ project.title }}
-              </h3>
+              </button>
             </div>
             <div class="immersive-gallery__project-info">
               <div
@@ -202,9 +206,16 @@ const onTitleLeave = (e: MouseEvent) => {
   margin: 0;
   text-shadow: v-bind(textShadow);
   cursor: pointer;
-  display: inline-block;
+  display: flex;
+  align-items: center;
   border-bottom: 1px solid transparent;
   transition: border-color 0.3s ease;
+  background: none;
+  border: none;
+  padding: 0;
+  font-family: inherit;
+  text-align: left;
+  min-height: 44px;
 }
 
 .immersive-gallery__project-info {
@@ -224,5 +235,23 @@ const onTitleLeave = (e: MouseEvent) => {
   color: rgba(255,255,255,0.6);
   margin-top: 4px;
   text-shadow: v-bind(textShadow);
+}
+
+@media (max-width: 768px) {
+  .immersive-gallery__project {
+    padding-left: 5vw !important;
+    padding-right: 5vw !important;
+    margin-top: 0 !important;
+  }
+  .immersive-gallery__project-inner {
+    width: 90vw;
+    max-width: none;
+  }
+  .immersive-gallery__header {
+    padding: 0 5vw;
+  }
+  .immersive-gallery__projects {
+    padding: 0 5vw;
+  }
 }
 </style>

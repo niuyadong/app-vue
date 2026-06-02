@@ -28,11 +28,11 @@ const handleLeave = (e: MouseEvent) => {
       class="hero-grid hero-field__grid"
     >
       <div class="hero-field__wordmark">
-        <h2
+        <p
           class="font-serif-display hero-field__title"
         >
           {{ heroConfig.wordmarkText }}
-        </h2>
+        </p>
       </div>
 
       <div class="hero-field__content">

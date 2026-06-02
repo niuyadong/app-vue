@@ -56,6 +56,9 @@ const onNavLeave = (e: MouseEvent) => {
   text-decoration: none;
   text-shadow: v-bind(textShadow);
   pointer-events: auto;
+  min-height: 44px;
+  display: flex;
+  align-items: center;
 }
 
 .site-nav__links {
@@ -73,6 +76,9 @@ const onNavLeave = (e: MouseEvent) => {
   transition: color 0.3s ease;
   pointer-events: auto;
   outline: none;
+  min-height: 44px;
+  display: flex;
+  align-items: center;
 }
 
 .site-nav__link:focus-visible {

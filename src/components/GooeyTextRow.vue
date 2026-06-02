@@ -75,8 +75,12 @@ const onLeave = () => {
 <template>
   <div
     class="gooey-text-row"
+    tabindex="0"
+    role="button"
     @mouseenter="onEnter"
     @mouseleave="onLeave"
+    @keydown.enter="onEnter"
+    @keydown.space.prevent="onEnter"
   >
     <svg
       class="gooey-text-row__svg"

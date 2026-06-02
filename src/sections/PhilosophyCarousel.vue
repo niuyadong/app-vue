@@ -39,6 +39,8 @@ onMounted(() => {
   let currentSpeed = 0
   const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)')
 
+  const items = ring.querySelectorAll<HTMLElement>('[data-ring-item]')
+
   const animateRing = () => {
     rafId = requestAnimationFrame(animateRing)
 
@@ -57,7 +59,6 @@ onMounted(() => {
 
     ring.style.transform = `rotateX(${currentRotation}deg)`
 
-    const items = ring.querySelectorAll<HTMLElement>('[data-ring-item]')
     items.forEach((item) => {
       const blurVal = Math.min(absSpeed * 1.5, 2)
       item.style.filter = blurVal > 0.1 ? `blur(${blurVal}px)` : 'none'
@@ -78,7 +79,7 @@ onUnmounted(() => {
 
 const totalItems = WORDS.length * 2
 const angleStep = 360 / totalItems
-const radius = 280
+const radius = window.innerWidth < 768 ? 140 : 280
 </script>
 
 <template>
@@ -220,6 +221,11 @@ const radius = 280
   .philosophy-carousel__stage {
     padding-top: 4vh;
     padding-bottom: 10vh;
+    perspective: 600px;
+  }
+
+  .philosophy-carousel__ring {
+    height: 300px;
   }
 
   .philosophy-carousel__title {

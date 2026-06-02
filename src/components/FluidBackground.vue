@@ -13,6 +13,12 @@ const mouse = ref({ x: 0, y: 0, px: 0, py: 0 })
 let mouseTimer: ReturnType<typeof setTimeout> | null = null
 let isActiveRef = ref(props.isActive ?? true)
 
+let fluidA: THREE.WebGLRenderTarget | null = null
+let fluidB: THREE.WebGLRenderTarget | null = null
+let quadGeo: THREE.PlaneGeometry | null = null
+let fluidMat: THREE.ShaderMaterial | null = null
+let displayMat: THREE.ShaderMaterial | null = null
+
 const fluidVertexShader = `
 varying vec2 v_uv;
 void main() {
@@ -195,6 +201,34 @@ void main() {
 }
 `
 
+const onPointerMove = (e: PointerEvent) => {
+  mouse.value.px = mouse.value.x
+  mouse.value.py = mouse.value.y
+  mouse.value.x = e.clientX
+  mouse.value.y = e.clientY
+
+  if (mouseTimer) clearTimeout(mouseTimer)
+  mouseTimer = setTimeout(() => {
+    mouse.value.x = 0
+    mouse.value.y = 0
+    mouse.value.px = 0
+    mouse.value.py = 0
+  }, 100)
+}
+
+const onResize = () => {
+  const nw = window.innerWidth
+  const nh = window.innerHeight
+  renderer!.setSize(nw, nh)
+  displayMat!.uniforms.u_resolution.value.set(nw, nh)
+
+  const nsw = Math.floor(nw * 0.5)
+  const nsh = Math.floor(nh * 0.5)
+  fluidA!.setSize(nsw, nsh)
+  fluidB!.setSize(nsw, nsh)
+  fluidMat!.uniforms.uResolution.value.set(nsw, nsh)
+}
+
 watch(() => props.isActive, (val) => {
   isActiveRef.value = val ?? true
 })
@@ -226,12 +260,12 @@ onMounted(() => {
     type: THREE.FloatType,
   }
 
-  let fluidA = new THREE.WebGLRenderTarget(simW, simH, rtOptions)
-  let fluidB = new THREE.WebGLRenderTarget(simW, simH, rtOptions)
+  fluidA = new THREE.WebGLRenderTarget(simW, simH, rtOptions)
+  fluidB = new THREE.WebGLRenderTarget(simW, simH, rtOptions)
 
-  const quadGeo = new THREE.PlaneGeometry(2, 2)
+  quadGeo = new THREE.PlaneGeometry(2, 2)
 
-  const fluidMat = new THREE.ShaderMaterial({
+  fluidMat = new THREE.ShaderMaterial({
     vertexShader: fluidVertexShader,
     fragmentShader: fluidFragmentShader,
     uniforms: {
@@ -246,7 +280,7 @@ onMounted(() => {
     },
   })
 
-  const displayMat = new THREE.ShaderMaterial({
+  displayMat = new THREE.ShaderMaterial({
     vertexShader: displayVertexShader,
     fragmentShader: displayFragmentShader,
     uniforms: {
@@ -279,58 +313,30 @@ const animate = () => {
 
     const elapsed = (performance.now() - startTime) / 1000
 
-    fluidMat.uniforms.uFluidTex.value = fluidA.texture
+    fluidMat!.uniforms.uFluidTex.value = fluidA!.texture
     const mx = mouse.value
-    fluidMat.uniforms.iMouse.value.set(
+    fluidMat!.uniforms.iMouse.value.set(
       mx.x * simW / w,
       (1 - mx.y / h) * simH,
       mx.px * simW / w,
       (1 - mx.py / h) * simH
     )
 
-    renderer!.setRenderTarget(fluidB)
+    renderer!.setRenderTarget(fluidB!)
     renderer!.render(fluidScene, camera)
 
-    const tmp = fluidA
+    const tmp = fluidA!
     fluidA = fluidB
     fluidB = tmp
 
-    displayMat.uniforms.u_time.value = elapsed
-    displayMat.uniforms.u_fluid.value = fluidA.texture
+    displayMat!.uniforms.u_time.value = elapsed
+    displayMat!.uniforms.u_fluid.value = fluidA!.texture
 
     renderer!.setRenderTarget(null)
     renderer!.render(displayScene, camera)
   }
 
   animate()
-
-  const onPointerMove = (e: PointerEvent) => {
-    mouse.value.px = mouse.value.x
-    mouse.value.py = mouse.value.y
-    mouse.value.x = e.clientX
-    mouse.value.y = e.clientY
-
-    if (mouseTimer) clearTimeout(mouseTimer)
-    mouseTimer = setTimeout(() => {
-      mouse.value.x = 0
-      mouse.value.y = 0
-      mouse.value.px = 0
-      mouse.value.py = 0
-    }, 100)
-  }
-
-  const onResize = () => {
-    const nw = window.innerWidth
-    const nh = window.innerHeight
-    renderer!.setSize(nw, nh)
-    displayMat.uniforms.u_resolution.value.set(nw, nh)
-
-    const nsw = Math.floor(nw * 0.5)
-    const nsh = Math.floor(nh * 0.5)
-    fluidA.setSize(nsw, nsh)
-    fluidB.setSize(nsw, nsh)
-    fluidMat.uniforms.uResolution.value.set(nsw, nsh)
-  }
 
   window.addEventListener('pointermove', onPointerMove)
   window.addEventListener('resize', onResize)
@@ -342,6 +348,11 @@ onUnmounted(() => {
   window.removeEventListener('pointermove', onPointerMove)
   window.removeEventListener('resize', onResize)
   renderer?.dispose()
+  fluidA?.dispose()
+  fluidB?.dispose()
+  quadGeo?.dispose()
+  fluidMat?.dispose()
+  displayMat?.dispose()
 })
 </script>
 

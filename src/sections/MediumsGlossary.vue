@@ -28,6 +28,8 @@ const hovered = computed(() => {
         :filter-id="`goo-suliu-${idx}`"
         @hover="hoveredIndex = idx"
         @leave-hover="hoveredIndex = null"
+        @touchstart="hoveredIndex = idx"
+        @touchend="hoveredIndex = null"
       />
     </div>
 
@@ -102,5 +104,24 @@ const hovered = computed(() => {
   line-height: 2;
   color: rgba(237,232,228,0.65);
   font-weight: 300;
+}
+
+@media (max-width: 768px) {
+  .mediums-glossary {
+    flex-direction: column;
+    padding: 10vh 6vw;
+    gap: 6vh;
+  }
+  .mediums-glossary__left,
+  .mediums-glossary__right {
+    flex: none;
+    width: 100%;
+  }
+  .mediums-glossary__label {
+    margin-bottom: 24px;
+  }
+  .mediums-glossary__hover-desc {
+    font-size: 18px;
+  }
 }
 </style>

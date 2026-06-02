@@ -162,6 +162,9 @@ const onLinkLeave = (e: MouseEvent) => {
   line-height: 1.8;
   transition: opacity 0.4s;
   white-space: pre-line;
+  min-height: 44px;
+  display: flex;
+  align-items: center;
 }
 
 .site-footer__link-text {
@@ -170,6 +173,9 @@ const onLinkLeave = (e: MouseEvent) => {
   font-size: 15px;
   line-height: 1.8;
   white-space: pre-line;
+  min-height: 44px;
+  display: flex;
+  align-items: center;
 }
 
 .site-footer__bottom {
