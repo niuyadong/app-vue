@@ -6,7 +6,12 @@
   "scripts": {
     "dev": "vite",
     "build": "vite build",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "test": "vitest",
+    "test:run": "vitest run",
+    "test:ui": "vitest --ui",
+    "e2e": "playwright test",
+    "e2e:ui": "playwright test --ui"
   },
   "dependencies": {
     "@studio-freight/lenis": "^1.0.42",
@@ -18,11 +23,15 @@
     "vue": "^3.5.34"
   },
   "devDependencies": {
+    "@playwright/test": "^1.60.0",
     "@types/node": "^24.12.3",
     "@vitejs/plugin-vue": "^6.0.6",
+    "@vue/test-utils": "^2.4.10",
     "@vue/tsconfig": "^0.9.1",
+    "happy-dom": "^20.9.0",
     "typescript": "~6.0.2",
     "vite": "^8.0.12",
+    "vitest": "^3.0.0",
     "vue-tsc": "^3.2.8"
   }
 }
