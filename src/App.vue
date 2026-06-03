@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref, computed, onMounted, onUnmounted, defineAsyncComponent } from 'vue'
+import { ref, computed, onMounted, onUnmounted, defineAsyncComponent, nextTick, watch } from 'vue'
 import Lenis from '@studio-freight/lenis'
 import gsap from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
@@ -24,6 +24,11 @@ const selectedProject = computed(() => {
   return selectedProjectId.value ? getProjectById(selectedProjectId.value) : null
 })
 
+const fluidActiveOverall = computed(() => {
+  if (selectedProjectId.value) return true
+  return fluidActive.value
+})
+
 const handleSelectProject = (id: string) => {
   savedScroll.value = window.scrollY
   selectedProjectId.value = id
@@ -39,6 +44,31 @@ const handleBack = () => {
 let lenis: Lenis | null = null
 let observer: IntersectionObserver | null = null
 let tickerCallback: ((time: number) => void) | null = null
+
+const initFluidObserver = () => {
+  observer?.disconnect()
+  observer = null
+  const heroEl = document.getElementById('hero-section')
+  const philEl = document.getElementById('philosophy')
+  const galleryEl = document.getElementById('gallery')
+  if (heroEl && philEl && galleryEl) {
+    const visibility = { hero: true, phil: false, gallery: false }
+    observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.target === heroEl) visibility.hero = entry.isIntersecting
+          if (entry.target === philEl) visibility.phil = entry.isIntersecting
+          if (entry.target === galleryEl) visibility.gallery = entry.isIntersecting
+        })
+        fluidActive.value = visibility.hero || visibility.phil || visibility.gallery
+      },
+      { threshold: 0.05 }
+    )
+    observer.observe(heroEl)
+    observer.observe(philEl)
+    observer.observe(galleryEl)
+  }
+}
 
 onMounted(() => {
   const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)')
@@ -56,28 +86,14 @@ onMounted(() => {
   gsap.ticker.add(tickerCallback)
   gsap.ticker.lagSmoothing(0)
 
-  // IntersectionObserver for fluid background
-  if (!selectedProjectId.value) {
-    const heroEl = document.getElementById('hero-section')
-    const philEl = document.getElementById('philosophy')
-    const galleryEl = document.getElementById('gallery')
-    if (heroEl && philEl && galleryEl) {
-      const visibility = { hero: true, phil: false, gallery: false }
-      observer = new IntersectionObserver(
-        (entries) => {
-          entries.forEach((entry) => {
-            if (entry.target === heroEl) visibility.hero = entry.isIntersecting
-            if (entry.target === philEl) visibility.phil = entry.isIntersecting
-            if (entry.target === galleryEl) visibility.gallery = entry.isIntersecting
-          })
-          fluidActive.value = visibility.hero || visibility.phil || visibility.gallery
-        },
-        { threshold: 0.05 }
-      )
-      observer.observe(heroEl)
-      observer.observe(philEl)
-      observer.observe(galleryEl)
-    }
+  initFluidObserver()
+})
+
+watch(selectedProjectId, (val) => {
+  if (val === null) {
+    nextTick(() => {
+      initFluidObserver()
+    })
   }
 })
 
@@ -96,22 +112,37 @@ onUnmounted(() => {
   >
     跳转到主内容
   </a>
-  <div v-if="selectedProject && selectedProjectId">
-    <div class="app__detail">
-      <FluidBackground :is-active="true" />
-      <ProjectDetail :project="selectedProject" @back="handleBack" />
-    </div>
+  <FluidBackground :is-active="fluidActiveOverall" />
+  <div
+    v-if="selectedProject && selectedProjectId"
+    class="app__detail"
+  >
+    <ProjectDetail
+      :project="selectedProject"
+      @back="handleBack"
+    />
   </div>
-  <div v-else class="app__main">
-    <FluidBackground :is-active="fluidActive" />
+  <div
+    v-else
+    class="app__main"
+  >
     <Navigation />
-    <div id="hero-section" class="app__hero">
+    <div
+      id="hero-section"
+      class="app__hero"
+    >
       <HeroField />
     </div>
-    <div id="philosophy" class="app__philosophy">
+    <div
+      id="philosophy"
+      class="app__philosophy"
+    >
       <PhilosophyCarousel />
     </div>
-    <div id="gallery" class="app__gallery">
+    <div
+      id="gallery"
+      class="app__gallery"
+    >
       <ImmersiveGallery @select="handleSelectProject" />
     </div>
     <div class="app__bottom">
@@ -128,6 +159,7 @@ onUnmounted(() => {
 <style scoped>
 .app__detail {
   position: relative;
+  z-index: 10;
 }
 
 .app__main {
