@@ -129,6 +129,7 @@ rounded:
   none: "0"
   sm: "4px"
   md: "0.625rem"
+  lg: "12px"
   pill: "40px"
 spacing:
   xs: "8px"

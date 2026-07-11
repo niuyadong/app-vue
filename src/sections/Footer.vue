@@ -64,6 +64,18 @@ const hasContent = footerConfig.visionText || footerConfig.brandName || footerCo
         </div>
       </div>
 
+      <div
+        v-if="footerConfig.qrImage"
+        class="site-footer__qr"
+      >
+        <img
+          :src="footerConfig.qrImage"
+          alt="微信搜一搜：至禾装饰设计"
+          class="site-footer__qr-image"
+          loading="lazy"
+        />
+      </div>
+
       <div class="site-footer__bottom">
         <p
           v-if="footerConfig.brandName"
@@ -175,6 +187,18 @@ const hasContent = footerConfig.visionText || footerConfig.brandName || footerCo
   min-height: 44px;
   display: flex;
   align-items: center;
+}
+
+.site-footer__qr {
+  padding: 48px 0 32px;
+}
+
+.site-footer__qr-image {
+  width: 100%;
+  max-width: 520px;
+  height: auto;
+  display: block;
+  border-radius: var(--radius-lg);
 }
 
 .site-footer__bottom {

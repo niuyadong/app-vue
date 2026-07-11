@@ -89,6 +89,7 @@ export interface FooterConfig {
   columns: FooterColumn[]
   copyright: string
   videoPath: string
+  qrImage?: string
 }
 
 export interface ProjectDetailConfig {
@@ -130,10 +131,10 @@ export const navigationConfig: NavigationConfig = {
   brandLogo: '/images/topLeftLogo.png',
   links: [
     { label: '首页', targetId: 'hero-section' },
+    { label: '关于我们', targetId: 'about' },
+    { label: '服务', targetId: 'services' },
     { label: '案例', targetId: 'gallery' },
     { label: '联系', targetId: 'footer' },
-    { label: '服务', targetId: 'services' },
-    { label: '关于我们', targetId: 'about' },
   ],
 }
 
@@ -391,6 +392,7 @@ export const footerConfig: FooterConfig = {
   ],
   copyright: '© 2026 至禾装饰 KISSH Design. All rights reserved.',
   videoPath: '',
+  qrImage: '/images/qr_candidate.bmp',
 }
 
 export const philosophyConfig: PhilosophyConfig = {

@@ -34,6 +34,12 @@
     --color-border-strong: rgba(255, 255, 255, 0.5);
     --color-shadow: rgba(0, 0, 0, 0.45);
 
+    /* Radius tokens */
+    --radius-sm: 4px;
+    --radius-md: 0.625rem;
+    --radius-lg: 12px;
+    --radius-pill: 40px;
+
     /* Tailwind v4 semantic tokens */
     --background: 210 33% 4%;
     --foreground: 30 14% 92%;
