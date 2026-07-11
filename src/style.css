@@ -95,6 +95,17 @@
   p {
     text-wrap: pretty;
   }
+
+  /* Globally hide the blinking text cursor on non-editable content */
+  * {
+    caret-color: transparent;
+  }
+
+  input,
+  textarea,
+  [contenteditable] {
+    caret-color: auto;
+  }
 }
 
 @layer components {
@@ -121,6 +132,20 @@
 
   .skip-link:focus {
     top: 0;
+  }
+
+  /* Prevent decorative labels/eyebrows from showing a text cursor on mobile */
+  [class$="__label"],
+  [class$="__eyebrow"],
+  [class$="__section-label"],
+  [class$="__project-id"],
+  [class$="__project-location"],
+  [class$="__project-year"],
+  [class$="__meta-label"],
+  [class$="__counter"],
+  [class$="__id"] {
+    user-select: none;
+    caret-color: transparent;
   }
 }
 
