@@ -2,13 +2,6 @@
 import { footerConfig } from '../config'
 
 const hasContent = footerConfig.visionText || footerConfig.brandName || footerConfig.columns.length > 0
-
-const onLinkEnter = (e: MouseEvent) => {
-  ;(e.target as HTMLElement).style.opacity = '1'
-}
-const onLinkLeave = (e: MouseEvent) => {
-  ;(e.target as HTMLElement).style.opacity = '0.6'
-}
 </script>
 
 <template>
@@ -57,8 +50,6 @@ const onLinkLeave = (e: MouseEvent) => {
                 v-if="entry.href"
                 :href="entry.href"
                 class="site-footer__link"
-                @mouseenter="onLinkEnter"
-                @mouseleave="onLinkLeave"
               >
                 {{ entry.text }}
               </a>
@@ -95,7 +86,7 @@ const onLinkLeave = (e: MouseEvent) => {
 .site-footer {
   position: relative;
   width: 100%;
-  background: #050A0F;
+  background: var(--color-bg-primary);
   z-index: 4;
   overflow: hidden;
 }
@@ -125,10 +116,10 @@ const onLinkLeave = (e: MouseEvent) => {
 }
 
 .site-footer__vision-text {
-  font-size: 17px;
+  font-size: 15px;
   font-weight: 300;
   line-height: 2.2;
-  color: rgba(237,232,228,0.75);
+  color: var(--color-text-secondary);
   letter-spacing: 0.02em;
 }
 
@@ -137,13 +128,13 @@ const onLinkLeave = (e: MouseEvent) => {
   grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
   gap: 48px;
   padding-bottom: 60px;
-  border-bottom: 1px solid rgba(255,255,255,0.06);
+  border-bottom: 1px solid var(--color-white-06);
 }
 
 .site-footer__col-heading {
   font-size: 11px;
   letter-spacing: 0.25em;
-  color: rgba(237,232,228,0.65);
+  color: var(--color-text-tertiary);
   text-transform: uppercase;
   margin-bottom: 16px;
 }
@@ -155,7 +146,7 @@ const onLinkLeave = (e: MouseEvent) => {
 }
 
 .site-footer__link {
-  color: #EDE8E4;
+  color: var(--color-text-primary);
   opacity: 0.75;
   font-size: 15px;
   text-decoration: none;
@@ -165,10 +156,18 @@ const onLinkLeave = (e: MouseEvent) => {
   min-height: 44px;
   display: flex;
   align-items: center;
+  outline: none;
+}
+
+.site-footer__link:hover,
+.site-footer__link:focus-visible {
+  opacity: 1;
+  text-decoration: underline;
+  text-underline-offset: 4px;
 }
 
 .site-footer__link-text {
-  color: #EDE8E4;
+  color: var(--color-text-primary);
   opacity: 0.75;
   font-size: 15px;
   line-height: 1.8;
@@ -186,13 +185,13 @@ const onLinkLeave = (e: MouseEvent) => {
 }
 
 .site-footer__brand {
-  font-size: 16px;
+  font-size: 15px;
   letter-spacing: 0.15em;
-  color: rgba(237,232,228,0.5);
+  color: var(--color-text-muted);
 }
 
 .site-footer__copyright {
   font-size: 12px;
-  color: rgba(237,232,228,0.45);
+  color: var(--color-text-faint);
 }
 </style>

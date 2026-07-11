@@ -171,27 +171,27 @@ const radius = window.innerWidth < 768 ? 140 : 280
 .philosophy-carousel__eyebrow {
   font-size: 13px;
   letter-spacing: 0.25em;
-  color: rgba(255,255,255,0.7);
+  color: var(--color-white-75);
   text-transform: uppercase;
   margin-bottom: 24px;
-  text-shadow: 0 2px 24px rgba(0,0,0,0.45);
+  text-shadow: 0 2px 24px var(--color-shadow);
 }
 
 .philosophy-carousel__title {
   font-size: clamp(28px, 2.5vw, 42px);
   font-weight: 300;
   line-height: 1.35;
-  color: #ffffff;
+  color: var(--color-white);
   margin-bottom: 28px;
-  text-shadow: 0 2px 24px rgba(0,0,0,0.45);
+  text-shadow: 0 2px 24px var(--color-shadow);
 }
 
 .philosophy-carousel__body {
   font-size: 15px;
   line-height: 2;
-  color: rgba(255,255,255,0.8);
+  color: var(--color-white-80);
   font-weight: 300;
-  text-shadow: 0 2px 24px rgba(0,0,0,0.45);
+  text-shadow: 0 2px 24px var(--color-shadow);
 }
 
 @media (max-width: 768px) {
@@ -277,10 +277,10 @@ const radius = window.innerWidth < 768 ? 140 : 280
   font-family: 'Noto Serif SC', Georgia, serif;
   font-size: clamp(42px, 8vw, 100px);
   font-weight: 300;
-  color: #ffffff;
+  color: var(--color-white);
   letter-spacing: 0.06em;
   line-height: 1.1;
   will-change: transform;
-  text-shadow: 0 2px 30px rgba(0,0,0,0.55);
+  text-shadow: 0 2px 30px var(--color-shadow);
 }
 </style>

@@ -1,24 +1,29 @@
 <script setup lang="ts">
 import { navigationConfig } from '../config'
 
-const textShadow = '0 2px 24px rgba(0,0,0,0.45)'
+const props = defineProps<{
+  activeTarget?: string
+}>()
+
+const textShadow = '0 2px 24px var(--color-shadow)'
 const links = navigationConfig.links
 
-const onNavEnter = (e: MouseEvent) => {
-  ;(e.target as HTMLElement).style.color = '#ffffff'
-}
-const onNavLeave = (e: MouseEvent) => {
-  ;(e.target as HTMLElement).style.color = 'rgba(255,255,255,0.85)'
-}
+const isActive = (targetId: string) => props.activeTarget === targetId
 </script>
 
 <template>
   <header class="site-nav">
     <a
       href="#hero-section"
-      class="font-serif-display site-nav__brand"
+      class="site-nav__brand"
     >
-      {{ navigationConfig.brandMark }}
+      <img
+        v-if="navigationConfig.brandLogo"
+        :src="navigationConfig.brandLogo"
+        :alt="navigationConfig.brandMark"
+        class="site-nav__brand-logo"
+      />
+      <span v-else>{{ navigationConfig.brandMark }}</span>
     </a>
     <nav class="site-nav__links">
       <a
@@ -26,8 +31,8 @@ const onNavLeave = (e: MouseEvent) => {
         :key="link.targetId"
         :href="`#${link.targetId}`"
         class="font-sans-body site-nav__link"
-        @mouseenter="onNavEnter"
-        @mouseleave="onNavLeave"
+        :class="{ 'site-nav__link--active': isActive(link.targetId) }"
+        :aria-current="isActive(link.targetId) ? 'page' : undefined"
       >
         {{ link.label }}
       </a>
@@ -50,15 +55,21 @@ const onNavLeave = (e: MouseEvent) => {
 }
 
 .site-nav__brand {
-  font-size: 16px;
-  letter-spacing: 0.2em;
-  color: #ffffff;
+  color: var(--color-white);
   text-decoration: none;
   text-shadow: v-bind(textShadow);
   pointer-events: auto;
   min-height: 44px;
   display: flex;
   align-items: center;
+}
+
+.site-nav__brand-logo {
+  height: 44px;
+  width: auto;
+  max-width: 220px;
+  object-fit: contain;
+  display: block;
 }
 
 .site-nav__links {
@@ -69,7 +80,7 @@ const onNavLeave = (e: MouseEvent) => {
 .site-nav__link {
   font-size: 13px;
   letter-spacing: 0.15em;
-  color: rgba(255,255,255,0.85);
+  color: var(--color-white-85);
   text-decoration: none;
   text-transform: uppercase;
   text-shadow: v-bind(textShadow);
@@ -81,14 +92,16 @@ const onNavLeave = (e: MouseEvent) => {
   align-items: center;
 }
 
-.site-nav__link:focus-visible {
-  color: #ffffff;
+.site-nav__link:hover,
+.site-nav__link:focus-visible,
+.site-nav__link--active {
+  color: var(--color-white);
   text-decoration: underline;
   text-underline-offset: 4px;
 }
 
 .site-nav__brand:focus-visible {
-  outline: 1px solid rgba(255,255,255,0.5);
+  outline: 1px solid var(--color-white-50);
   outline-offset: 4px;
 }
 </style>

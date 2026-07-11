@@ -28,6 +28,8 @@ const hovered = computed(() => {
         :filter-id="`goo-suliu-${idx}`"
         @hover="hoveredIndex = idx"
         @leave-hover="hoveredIndex = null"
+        @focus="hoveredIndex = idx"
+        @blur="hoveredIndex = null"
         @touchstart="hoveredIndex = idx"
         @touchend="hoveredIndex = null"
       />
@@ -37,6 +39,8 @@ const hovered = computed(() => {
     <div class="mediums-glossary__right">
       <div
         class="mediums-glossary__description"
+        aria-live="polite"
+        aria-atomic="true"
         :style="{
           opacity: hovered ? 1 : 0,
           transform: hovered ? 'translateY(0)' : 'translateY(12px)'
@@ -60,7 +64,7 @@ const hovered = computed(() => {
   position: relative;
   width: 100%;
   min-height: 80vh;
-  background: #050A0F;
+  background: var(--color-bg-primary);
   z-index: 4;
   display: flex;
   padding: 16vh 8vw;
@@ -74,7 +78,7 @@ const hovered = computed(() => {
 .mediums-glossary__label {
   font-size: 12px;
   letter-spacing: 0.3em;
-  color: rgba(237,232,228,0.35);
+  color: var(--color-text-faint);
   text-transform: uppercase;
   margin-bottom: 48px;
 }
@@ -94,7 +98,7 @@ const hovered = computed(() => {
 .mediums-glossary__hover-en {
   font-size: 12px;
   letter-spacing: 0.25em;
-  color: #30B0D0;
+  color: var(--color-accent);
   text-transform: uppercase;
   margin-bottom: 16px;
 }
@@ -102,7 +106,7 @@ const hovered = computed(() => {
 .mediums-glossary__hover-desc {
   font-size: 22px;
   line-height: 2;
-  color: rgba(237,232,228,0.65);
+  color: var(--color-text-tertiary);
   font-weight: 300;
 }
 

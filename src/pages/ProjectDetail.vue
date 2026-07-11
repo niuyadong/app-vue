@@ -10,7 +10,7 @@ const emit = defineEmits<{
   back: []
 }>()
 
-const textShadow = '0 2px 24px rgba(0,0,0,0.45)'
+const textShadow = '0 2px 24px var(--color-shadow)'
 </script>
 
 <template>
@@ -24,7 +24,7 @@ const textShadow = '0 2px 24px rgba(0,0,0,0.45)'
         {{ projectDetailConfig.backLabel || '←' }}
       </button>
       <div class="font-sans-body project-detail__id">
-        {{ project.id }} / {{ project.year }}
+        {{ project.id }}{{ project.year ? ` / ${project.year}` : '' }}
       </div>
     </div>
 
@@ -33,7 +33,7 @@ const textShadow = '0 2px 24px rgba(0,0,0,0.45)'
       <!-- Left — article -->
       <article class="project-detail__article">
         <div class="font-sans-body project-detail__location">
-          {{ project.location }} · {{ project.year }}
+          {{ [project.location, project.year].filter(Boolean).join(' · ') }}
         </div>
         <h1 class="font-serif-display project-detail__title">
           {{ project.title }}
@@ -92,7 +92,7 @@ const textShadow = '0 2px 24px rgba(0,0,0,0.45)'
   z-index: 10;
   min-height: 100vh;
   width: 100%;
-  color: #ffffff;
+  color: var(--color-white);
 }
 
 .project-detail__topbar {
@@ -105,27 +105,39 @@ const textShadow = '0 2px 24px rgba(0,0,0,0.45)'
   align-items: center;
   backdrop-filter: blur(8px);
   -webkit-backdrop-filter: blur(8px);
-  background: rgba(5, 10, 15, 0.25);
+  background: var(--color-bg-glass);
 }
 
 .project-detail__back-btn {
   background: transparent;
-  border: 1px solid rgba(255, 255, 255, 0.4);
-  color: #ffffff;
+  border: 1px solid var(--color-white-40);
+  color: var(--color-white);
   font-size: 11px;
   letter-spacing: 0.25em;
   text-transform: uppercase;
   padding: 10px 22px;
-  border-radius: 30px;
+  border-radius: 40px;
   cursor: pointer;
   text-shadow: v-bind(textShadow);
   min-height: 44px;
+  outline: none;
+}
+
+.project-detail__back-btn:hover,
+.project-detail__back-btn:focus-visible {
+  border-color: var(--color-white);
+  background: var(--color-white-08);
+}
+
+.project-detail__back-btn:focus-visible {
+  outline: 1px solid var(--color-white-40);
+  outline-offset: 4px;
 }
 
 .project-detail__id {
   font-size: 10px;
   letter-spacing: 0.3em;
-  color: rgba(255, 255, 255, 0.65);
+  color: var(--color-white-65);
   text-transform: uppercase;
   text-shadow: v-bind(textShadow);
 }
@@ -145,7 +157,7 @@ const textShadow = '0 2px 24px rgba(0,0,0,0.45)'
 .project-detail__location {
   font-size: 10px;
   letter-spacing: 0.3em;
-  color: rgba(255, 255, 255, 0.6);
+  color: var(--color-white-65);
   text-transform: uppercase;
   margin-bottom: 18px;
   text-shadow: v-bind(textShadow);
@@ -158,7 +170,7 @@ const textShadow = '0 2px 24px rgba(0,0,0,0.45)'
   line-height: 1.1;
   margin: 0;
   margin-bottom: 24px;
-  color: #ffffff;
+  color: var(--color-white);
   text-shadow: v-bind(textShadow);
 }
 
@@ -166,7 +178,7 @@ const textShadow = '0 2px 24px rgba(0,0,0,0.45)'
   font-size: clamp(16px, 1.4vw, 20px);
   font-weight: 300;
   line-height: 1.6;
-  color: rgba(255, 255, 255, 0.82);
+  color: var(--color-white-82);
   font-style: italic;
   margin: 0;
   margin-bottom: 48px;
@@ -180,8 +192,8 @@ const textShadow = '0 2px 24px rgba(0,0,0,0.45)'
   margin-bottom: 48px;
   padding-top: 20px;
   padding-bottom: 24px;
-  border-top: 1px solid rgba(255, 255, 255, 0.18);
-  border-bottom: 1px solid rgba(255, 255, 255, 0.18);
+  border-top: 1px solid var(--color-border-light);
+  border-bottom: 1px solid var(--color-border-light);
 }
 
 .project-detail__meta-row {
@@ -193,7 +205,7 @@ const textShadow = '0 2px 24px rgba(0,0,0,0.45)'
 .project-detail__meta-label {
   font-size: 10px;
   letter-spacing: 0.25em;
-  color: rgba(255, 255, 255, 0.55);
+  color: var(--color-white-65);
   text-transform: uppercase;
   text-shadow: v-bind(textShadow);
 }
@@ -201,7 +213,7 @@ const textShadow = '0 2px 24px rgba(0,0,0,0.45)'
 .project-detail__meta-value {
   font-size: 12px;
   letter-spacing: 0.12em;
-  color: rgba(255, 255, 255, 0.88);
+  color: var(--color-white-88);
   text-align: right;
   text-shadow: v-bind(textShadow);
 }
@@ -216,7 +228,7 @@ const textShadow = '0 2px 24px rgba(0,0,0,0.45)'
   font-size: 15px;
   line-height: 2;
   font-weight: 300;
-  color: rgba(255, 255, 255, 0.82);
+  color: var(--color-white-82);
   margin: 0;
   text-shadow: v-bind(textShadow);
 }
