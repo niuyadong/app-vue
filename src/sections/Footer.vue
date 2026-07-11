@@ -191,6 +191,8 @@ const hasContent = footerConfig.visionText || footerConfig.brandName || footerCo
 
 .site-footer__qr {
   padding: 48px 0 32px;
+  display: flex;
+  justify-content: flex-end;
 }
 
 .site-footer__qr-image {

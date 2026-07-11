@@ -40,6 +40,10 @@
     --radius-lg: 12px;
     --radius-pill: 40px;
 
+    /* Icon / symbol size tokens */
+    --font-size-icon-sm: 1.5rem;
+    --font-size-icon-md: 1.75rem;
+
     /* Tailwind v4 semantic tokens */
     --background: 210 33% 4%;
     --foreground: 30 14% 92%;

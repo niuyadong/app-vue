@@ -62,6 +62,7 @@ export interface ProjectData {
   location: string
   year: string
   image: string
+  images: string[]
   subtitle: string
   meta: ProjectMeta[]
   paragraphs: string[]
@@ -131,10 +132,10 @@ export const navigationConfig: NavigationConfig = {
   brandLogo: '/images/topLeftLogo.png',
   links: [
     { label: '首页', targetId: 'hero-section' },
-    { label: '关于我们', targetId: 'about' },
-    { label: '服务', targetId: 'services' },
     { label: '案例', targetId: 'gallery' },
     { label: '联系', targetId: 'footer' },
+    { label: '服务', targetId: 'services' },
+    { label: '关于我们', targetId: 'about' },
   ],
 }
 
@@ -276,6 +277,11 @@ export const galleryConfig: GalleryConfig = {
       location: '青海·格尔木',
       year: '2022',
       image: 'images/qinghe-campus-01.jpg',
+      images: [
+        'images/qinghe-campus-01.jpg',
+        'images/qinghe-campus-02.png',
+        'images/qinghe-campus-03.png',
+      ],
       subtitle: '以唐诗国学文化为主线的现代化公共阅读空间',
       meta: [
         { label: '类型', value: '公建学校' },
@@ -296,6 +302,11 @@ export const galleryConfig: GalleryConfig = {
       location: '项城·如意湖',
       year: '2026',
       image: 'images/shuxiang-residence-01.jpg',
+      images: [
+        'images/shuxiang-residence-01.jpg',
+        'images/shuxiang-residence-02.jpg',
+        'images/shuxiang-residence-03.jpg',
+      ],
       subtitle: '宋式美学新中式，极简线条与原木基底重构东方禅意',
       meta: [
         { label: '类型', value: '宋式私宅' },
@@ -316,6 +327,11 @@ export const galleryConfig: GalleryConfig = {
       location: '河南·项城',
       year: '2025',
       image: 'images/jiaopian-shijing-01.jpg',
+      images: [
+        'images/jiaopian-shijing-01.jpg',
+        'images/jiaopian-shijing-02.jpg',
+        'images/jiaopian-shijing-03.jpg',
+      ],
       subtitle: '轻工业复古市井风，粗犷基底与复古撞色的商业空间',
       meta: [
         { label: '类型', value: '市井餐馆' },
@@ -336,6 +352,11 @@ export const galleryConfig: GalleryConfig = {
       location: '项城·如意湖',
       year: '2026',
       image: 'images/italian-residence-01.jpg',
+      images: [
+        'images/italian-residence-01.jpg',
+        'images/italian-residence-02.jpg',
+        'images/italian-residence-03.jpg',
+      ],
       subtitle: '客餐厨一体化，低饱和中性色调的现代意式住宅',
       meta: [
         { label: '类型', value: '意式私宅' },

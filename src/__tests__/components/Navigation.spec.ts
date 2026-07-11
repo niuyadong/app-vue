@@ -3,6 +3,8 @@ import { mount } from '@vue/test-utils'
 import Navigation from '../../components/Navigation.vue'
 import { navigationConfig } from '../../config'
 
+const expectedHrefs = navigationConfig.links.map((link) => `#${link.targetId}`)
+
 describe('Navigation', () => {
   it('renders brand logo image', () => {
     const wrapper = mount(Navigation)
@@ -29,10 +31,9 @@ describe('Navigation', () => {
     const wrapper = mount(Navigation)
     const links = wrapper.findAll('nav a')
 
-    expect(links[0].attributes('href')).toBe('#hero-section')
-    expect(links[1].attributes('href')).toBe('#about')
-    expect(links[2].attributes('href')).toBe('#services')
-    expect(links[3].attributes('href')).toBe('#gallery')
-    expect(links[4].attributes('href')).toBe('#footer')
+    expect(links.length).toBe(expectedHrefs.length)
+    links.forEach((link, index) => {
+      expect(link.attributes('href')).toBe(expectedHrefs[index])
+    })
   })
 })

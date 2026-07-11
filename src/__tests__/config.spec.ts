@@ -73,6 +73,8 @@ describe('galleryConfig', () => {
       expect(project.id).toBeTruthy()
       expect(project.title).toBeTruthy()
       expect(project.image).toBeTruthy()
+      expect(Array.isArray(project.images)).toBe(true)
+      expect(project.images.length).toBeGreaterThan(0)
       expect(project.subtitle).toBeTruthy()
       expect(Array.isArray(project.meta)).toBe(true)
       expect(Array.isArray(project.paragraphs)).toBe(true)
