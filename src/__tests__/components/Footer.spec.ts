@@ -15,7 +15,8 @@ describe('Footer', () => {
 
   it('renders copyright', () => {
     const wrapper = mount(Footer)
-    expect(wrapper.text()).toContain('© 2024')
+    expect(wrapper.text()).toMatch(/© \d{4}/)
+    expect(wrapper.text()).toContain('至禾装饰')
   })
 
   it('renders footer columns', () => {

@@ -228,14 +228,14 @@ onUnmounted(() => {
         <HeroField />
       </div>
       <PhilosophyCarousel />
-      <div id="mediums">
-        <MediumsGlossary />
-      </div>
       <div
         id="gallery"
         class="app__gallery"
       >
         <ImmersiveGallery @select="handleSelectProject" />
+      </div>
+      <div id="mediums">
+        <MediumsGlossary />
       </div>
       <div id="footer">
         <Footer />
