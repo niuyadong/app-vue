@@ -1,25 +1,7 @@
 <script setup lang="ts">
 import { heroConfig } from '../config'
 
-const textShadow = '0 2px 24px rgba(0,0,0,0.45)'
-
-const handleCta = () => {
-  if (heroConfig.ctaTargetId) {
-    document.getElementById(heroConfig.ctaTargetId)?.scrollIntoView({ behavior: 'smooth', block: 'start' })
-  }
-}
-
-const handleEnter = (e: MouseEvent) => {
-  const el = e.currentTarget as HTMLElement
-  el.style.background = 'rgba(255,255,255,0.18)'
-  el.style.borderColor = 'rgba(255,255,255,0.8)'
-}
-
-const handleLeave = (e: MouseEvent) => {
-  const el = e.currentTarget as HTMLElement
-  el.style.background = 'rgba(255,255,255,0.08)'
-  el.style.borderColor = 'rgba(255,255,255,0.5)'
-}
+const textShadow = '0 2px 24px var(--color-shadow)'
 </script>
 
 <template>
@@ -28,7 +10,14 @@ const handleLeave = (e: MouseEvent) => {
       class="hero-grid hero-field__grid"
     >
       <div class="hero-field__wordmark">
+        <img
+          v-if="heroConfig.wordmarkLogo"
+          :src="heroConfig.wordmarkLogo"
+          :alt="heroConfig.wordmarkText"
+          class="hero-field__logo"
+        />
         <p
+          v-else
           class="font-serif-display hero-field__title"
         >
           {{ heroConfig.wordmarkText }}
@@ -64,8 +53,6 @@ const handleLeave = (e: MouseEvent) => {
           v-if="heroConfig.ctaText && heroConfig.ctaTargetId"
           :href="`#${heroConfig.ctaTargetId}`"
           class="font-sans-body hero-field__cta"
-          @mouseenter="handleEnter"
-          @mouseleave="handleLeave"
         >
           {{ heroConfig.ctaText }}
         </a>
@@ -102,10 +89,19 @@ const handleLeave = (e: MouseEvent) => {
 .hero-field__title {
   font-size: clamp(48px, 7vw, 96px);
   font-weight: 300;
-  color: #ffffff;
+  color: var(--color-white);
   letter-spacing: 0.12em;
   text-shadow: v-bind(textShadow);
   margin: 0;
+}
+
+.hero-field__logo {
+  width: min(55vw, 520px);
+  height: auto;
+  max-height: 15vh;
+  object-fit: contain;
+  display: block;
+  filter: drop-shadow(0 2px 24px var(--color-shadow));
 }
 
 .hero-field__content {
@@ -120,7 +116,7 @@ const handleLeave = (e: MouseEvent) => {
 .hero-field__eyebrow {
   font-size: 12px;
   letter-spacing: 0.3em;
-  color: rgba(255, 255, 255, 0.75);
+  color: var(--color-white-75);
   text-transform: uppercase;
   margin-bottom: 28px;
   margin-left: 60px;
@@ -131,7 +127,7 @@ const handleLeave = (e: MouseEvent) => {
   font-size: clamp(32px, 3vw, 52px);
   font-weight: 300;
   line-height: 1.3;
-  color: #ffffff;
+  color: var(--color-white);
   word-break: keep-all;
   margin-bottom: 24px;
   margin-left: 60px;
@@ -141,7 +137,7 @@ const handleLeave = (e: MouseEvent) => {
 .hero-field__description {
   font-size: 14px;
   line-height: 1.9;
-  color: rgba(255, 255, 255, 0.75);
+  color: var(--color-white-75);
   font-weight: 300;
   margin-bottom: 40px;
   margin-left: 60px;
@@ -150,11 +146,11 @@ const handleLeave = (e: MouseEvent) => {
 
 .hero-field__cta {
   display: inline-block;
-  background: rgba(255, 255, 255, 0.08);
-  border: 1px solid rgba(255, 255, 255, 0.5);
+  background: var(--color-white-08);
+  border: 1px solid var(--color-border-strong);
   border-radius: 40px;
   padding: 14px 32px;
-  color: #ffffff;
+  color: var(--color-white);
   font-size: 13px;
   letter-spacing: 0.15em;
   cursor: pointer;
@@ -166,10 +162,14 @@ const handleLeave = (e: MouseEvent) => {
   outline: none;
 }
 
+.hero-field__cta:hover,
 .hero-field__cta:focus-visible {
-  background: rgba(255, 255, 255, 0.18);
-  border-color: rgba(255, 255, 255, 0.8);
-  outline: 1px solid rgba(255, 255, 255, 0.4);
+  background: var(--color-white-18);
+  border-color: var(--color-white-80);
+}
+
+.hero-field__cta:focus-visible {
+  outline: 1px solid var(--color-white-40);
   outline-offset: 4px;
 }
 

@@ -11,6 +11,8 @@ const props = defineProps<{
 const emit = defineEmits<{
   hover: []
   leaveHover: []
+  focus: []
+  blur: []
 }>()
 
 const text1Ref = ref<SVGTextElement | null>(null)
@@ -77,8 +79,11 @@ const onLeave = () => {
     class="gooey-text-row"
     tabindex="0"
     role="button"
+    :aria-label="`${item.cn} ${item.en}`"
     @mouseenter="onEnter"
     @mouseleave="onLeave"
+    @focus="emit('focus')"
+    @blur="emit('blur')"
     @keydown.enter="onEnter"
     @keydown.space.prevent="onEnter"
   >
@@ -109,7 +114,7 @@ const onLeave = () => {
           ref="text1Ref"
           x="0"
           y="35"
-          fill="#EDE8E4"
+          fill="var(--color-text-primary)"
           font-family="'Noto Serif SC', Georgia, serif"
           font-size="32"
           font-weight="300"
@@ -121,7 +126,7 @@ const onLeave = () => {
           ref="text2Ref"
           x="0"
           y="35"
-          fill="#30B0D0"
+          fill="var(--color-accent)"
           font-family="'Noto Sans SC', Helvetica, sans-serif"
           font-size="28"
           font-weight="700"
@@ -137,7 +142,7 @@ const onLeave = () => {
 <style scoped>
 .gooey-text-row {
   cursor: pointer;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  border-bottom: 1px solid var(--color-border);
   padding: 28px 0;
   transition: border-color 0.4s;
 }

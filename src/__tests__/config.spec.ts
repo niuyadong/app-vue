@@ -3,10 +3,11 @@ import {
   siteConfig,
   navigationConfig,
   heroConfig,
-  philosophyConfig,
+  aboutConfig,
+  servicesConfig,
   galleryConfig,
-  mediumsConfig,
   footerConfig,
+  contactConfig,
   projectDetailConfig,
   getProjectById,
 } from '../config'
@@ -39,15 +40,41 @@ describe('heroConfig', () => {
   })
 })
 
+describe('aboutConfig', () => {
+  it('has required fields', () => {
+    expect(aboutConfig.sectionLabel).toBeTruthy()
+    expect(aboutConfig.title).toBeTruthy()
+    expect(aboutConfig.intro).toBeTruthy()
+    expect(aboutConfig.keywords.length).toBeGreaterThan(0)
+    expect(aboutConfig.steps.length).toBeGreaterThan(0)
+    aboutConfig.steps.forEach((step) => {
+      expect(step.phase).toBeTruthy()
+      expect(step.items.length).toBeGreaterThan(0)
+    })
+  })
+})
+
+describe('servicesConfig', () => {
+  it('has categories with title and items', () => {
+    expect(servicesConfig.sectionLabel).toBeTruthy()
+    expect(servicesConfig.title).toBeTruthy()
+    expect(servicesConfig.categories.length).toBeGreaterThan(0)
+    servicesConfig.categories.forEach((category) => {
+      expect(category.title).toBeTruthy()
+      expect(category.items.length).toBeGreaterThan(0)
+    })
+  })
+})
+
 describe('galleryConfig', () => {
   it('has projects with required fields', () => {
     expect(galleryConfig.projects.length).toBeGreaterThan(0)
     galleryConfig.projects.forEach((project) => {
       expect(project.id).toBeTruthy()
       expect(project.title).toBeTruthy()
-      expect(project.location).toBeTruthy()
-      expect(project.year).toBeTruthy()
       expect(project.image).toBeTruthy()
+      expect(Array.isArray(project.images)).toBe(true)
+      expect(project.images.length).toBeGreaterThan(0)
       expect(project.subtitle).toBeTruthy()
       expect(Array.isArray(project.meta)).toBe(true)
       expect(Array.isArray(project.paragraphs)).toBe(true)
@@ -55,14 +82,11 @@ describe('galleryConfig', () => {
   })
 })
 
-describe('mediumsConfig', () => {
-  it('has items with cn, en, description', () => {
-    expect(mediumsConfig.items.length).toBeGreaterThan(0)
-    mediumsConfig.items.forEach((item) => {
-      expect(item.cn).toBeTruthy()
-      expect(item.en).toBeTruthy()
-      expect(item.description).toBeTruthy()
-    })
+describe('contactConfig', () => {
+  it('has required fields', () => {
+    expect(contactConfig.address).toBeTruthy()
+    expect(contactConfig.phone).toBeTruthy()
+    expect(contactConfig.email).toBeTruthy()
   })
 })
 

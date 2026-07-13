@@ -1,238 +1,252 @@
-# AGENTS.md
+# 至禾设计 (KISSH Design) 品牌展示网站 — Agent 指南
 
-`app-vue` 项目的 AI 智能体专用指南。本文档面向需要理解、修改或扩展本代码库的 AI 编程智能体。以下所有事实均源自实际的项目文件。
+本文件面向 AI 编码助手。阅读前请默认不了解本项目；以下信息均基于仓库实际内容整理。
 
-## 项目概述
+---
 
-`app-vue` 是 **至禾设计（KISSH Design）** 的品牌展示单页网站，至禾设计是一家高端室内空间设计工作室。这是一个无后端、无 Vue Router 的客户端 Vue 3 + TypeScript + Vite 单页应用（SPA）。
+## 1. 项目概述
 
-网站围绕暗黑、极简、东方侘寂美学设计。内容均为静态，并集中在 `src/config.ts` 中管理。导航通过页内锚点链接（`#sectionId`）实现；项目详情视图通过 `App.vue` 中的条件渲染呈现，而非路由切换。
+这是一个为 **至禾设计（KISSH Design）** 打造的高端室内设计品牌展示网站，核心目标是：
 
-核心产品目标（来自 `PRODUCT.md`）：
-- 传达极简与东方侘寂美学的设计理念。
-- 展示沉浸式的作品集。
-- 在首屏内建立高端、克制、值得信赖的品牌印象。
-- 通过页脚引导潜在客户进行咨询/联系。
+- 以视觉语言传递「极简主义与东方侘寂美学」的设计哲学
+- 通过沉浸式作品集展示设计实力
+- 在首屏建立高端、克制、可信赖的品牌印象
+- 引导潜在客户产生咨询/联系行为
 
-## 技术栈
+产品定义与品牌调性详见 [`PRODUCT.md`](./PRODUCT.md)。README（[`README.md`](./README.md)）仅为 Vite + Vue 3 模板说明，不包含业务信息。
 
-| 层级 | 技术 | 版本 / 说明 |
-|---|---|---|
-| 框架 | Vue 3 | `^3.5.34`，使用 Composition API 与 `<script setup lang="ts">` 单文件组件 |
-| 语言 | TypeScript | `~6.0.2` |
-| 构建工具 | Vite | `^8.0.12` |
-| 样式 | Tailwind CSS v4 | `^4.3.0`，通过 `@tailwindcss/vite` 引入 |
-| 3D / WebGL | Three.js | `^0.184.0`，在 `FluidBackground.vue` 中自定义 GLSL 流体模拟 |
-| 动画 | GSAP + ScrollTrigger | `^3.15.0` |
-| 平滑滚动 | Lenis | `@studio-freight/lenis ^1.0.42` |
-| 单元测试 | Vitest | `^3.0.0`，配合 `@vue/test-utils` 与 `happy-dom` |
-| 端到端测试 | Playwright | `@playwright/test ^1.60.0` |
-| 字体 | Google Fonts | `Noto Sans SC` 与 `Noto Serif SC` |
+站点语言：**中文（zh-CN）**，部分区域使用英文标签。
 
-`package.json` 中设置了 `"type": "module"`，因此所有 `.js` / `.ts` 文件均按 ESM 处理。
+### 关键配置
 
-## 项目结构
+| 文件 | 作用 |
+|------|------|
+| `package.json` | 依赖、脚本、项目元信息 |
+| `vite.config.ts` | Vite + Vue + Tailwind CSS v4 插件；手动代码分割 |
+| `vitest.config.ts` | 单元/组件测试配置 |
+| `playwright.config.ts` | E2E 测试配置 |
+| `tsconfig.json` / `tsconfig.app.json` / `tsconfig.node.json` | TypeScript 项目引用配置 |
+| `index.html` | HTML 入口，加载 Google Fonts，声明 dark color-scheme |
+| `src/config.ts` | 所有文案、类型、项目数据的中央配置 |
+
+---
+
+## 2. 技术栈
+
+- **框架**：Vue 3（Composition API，`<script setup lang="ts">`）
+- **语言**：TypeScript ~6.0.2
+- **构建工具**：Vite ^8.0.12
+- **CSS 框架**：Tailwind CSS ^4.3.0，通过 `@tailwindcss/vite` 集成
+- **动画**：GSAP ^3.15.0 + ScrollTrigger
+- **3D / WebGL**：Three.js ^0.184.0（自定义 Shader 流体背景）
+- **平滑滚动**：Lenis（`@studio-freight/lenis` ^1.0.42）
+- **单元测试**：Vitest ^3.0.0 + `@vue/test-utils` ^2.4.10 + `happy-dom`
+- **E2E 测试**：Playwright ^1.60.0
+- **字体**：Google Fonts — Noto Sans SC / Noto Serif SC
+
+---
+
+## 3. 代码组织
 
 ```
-app-vue/
-├── e2e/                          # Playwright 端到端测试
-│   └── navigation.spec.ts
-├── public/                       # 静态资源，构建时原样复制到 dist/
-│   ├── favicon.svg
-│   └── images/
-│       ├── project-1.jpg
-│       ├── project-2.jpg
-│       ├── project-3.jpg
-│       └── project-4.jpg
-├── src/
-│   ├── __tests__/                # Vitest 单元测试
-│   │   ├── setup.ts
-│   │   ├── config.spec.ts
-│   │   └── components/
-│   │       ├── Footer.spec.ts
-│   │       └── Navigation.spec.ts
-│   ├── components/               # 可复用的 UI / 动画组件
-│   │   ├── FluidBackground.vue   # Three.js WebGL 流体背景
-│   │   ├── GooeyTextRow.vue      # SVG + GSAP 流体文字过渡
-│   │   └── Navigation.vue        # 固定站点头部导航
-│   ├── pages/                    # 全屏详情页
-│   │   └── ProjectDetail.vue
-│   ├── sections/                 # 页面级滚动区块
-│   │   ├── HeroField.vue
-│   │   ├── PhilosophyCarousel.vue
-│   │   ├── ImmersiveGallery.vue
-│   │   ├── MediumsGlossary.vue
-│   │   └── Footer.vue
-│   ├── App.vue                   # 根组件，负责 Lenis + ScrollTrigger 编排
-│   ├── config.ts                 # 所有站点内容、类型与 getProjectById()
-│   ├── main.ts                   # Vue 应用入口
-│   ├── style.css                 # Tailwind 引入 + 设计 token
-│   └── vite-env.d.ts             # Vite 客户端类型
-├── index.html                    # SPA 外壳，中文语言，字体预连接
-├── package.json
-├── vite.config.ts
-├── vitest.config.ts
-├── playwright.config.ts
-├── tsconfig.json                 # 仅用于项目引用
-├── tsconfig.app.json
-└── tsconfig.node.json
+src/
+├── main.ts                    # 应用启动入口
+├── App.vue                    # 根布局、平滑滚动、项目详情状态
+├── config.ts                  # 所有内容配置与 TypeScript 类型
+├── style.css                  # 全局样式、Tailwind 引入、CSS Token
+├── vite-env.d.ts              # Vite 客户端类型
+├── components/                # 可复用 UI 组件
+│   ├── Navigation.vue
+│   ├── FluidBackground.vue    # WebGL 流体背景（异步加载）
+│   └── GooeyTextRow.vue       # SVG 文字 gooey 过渡效果
+├── sections/                  # 页面区块
+│   ├── HeroField.vue
+│   ├── PhilosophyCarousel.vue
+│   ├── ImmersiveGallery.vue
+│   ├── MediumsGlossary.vue
+│   └── Footer.vue
+├── pages/                     # 全屏视图
+│   └── ProjectDetail.vue
+└── __tests__/                 # 单元/组件测试
+    ├── setup.ts
+    ├── config.spec.ts
+    └── components/
+        ├── Navigation.spec.ts
+        └── Footer.spec.ts
 ```
 
-### 架构模式
+### 架构要点
 
-- **无全局状态库。** 所有状态均为组件内的本地 `ref` / `computed`。
-- **无 Vue Router。** 主页使用锚点链接。项目详情通过设置 `App.vue` 中的 `selectedProjectId` 并条件渲染 `ProjectDetail.vue` 来展示。
-- **内容集中管理。** 所有文案、项目数据、导航与类型均位于 `src/config.ts`。组件消费配置对象，不硬编码业务内容。
-- **异步加载重组件。** `FluidBackground.vue` 使用 `defineAsyncComponent` 加载，以减小初始包体积。
-- **代码分割。** `vite.config.ts` 将 `three`、`gsap` 与 `lenis` 拆分为独立 chunk。
+- **单页应用（SPA）**，没有安装 Vue Router。页面内导航使用锚点链接（`#hero-section`、`#philosophy`、`#gallery`、`#mediums`、`#footer`）。
+- **项目详情页**通过 `App.vue` 中的 `selectedProjectId` 状态原地切换；返回首页时通过 `window.scrollTo` 恢复之前保存的滚动位置。
+- **流体背景**通过 `defineAsyncComponent` 异步加载，并在 `App.vue` 中通过 `IntersectionObserver` 监测 `hero-section`、`philosophy`、`gallery` 的可见性来启停渲染，降低 GPU 占用。
+- **平滑滚动**使用 Lenis，并与 GSAP `ScrollTrigger` 同步；检测到 `prefers-reduced-motion: reduce` 时降低/禁用平滑滚动。
 
-## 构建与测试命令
+---
 
-所有命令均定义在 `package.json` 中：
+## 4. 构建与运行命令
 
 ```bash
-# 开发服务器（Vite，默认 http://localhost:5173）
+# 安装依赖
+npm install
+
+# 开发服务器（默认 http://localhost:5173）
 npm run dev
 
-# 生产构建（输出到 dist/）
+# 生产构建，输出到 dist/
 npm run build
 
-# 本地预览生产构建
+# 预览生产构建
 npm run preview
 
-# 以监听模式运行单元测试
+# 单元测试（Vitest watch 模式）
 npm run test
 
-# 单次运行单元测试（适合 CI）
+# 单元测试（单次运行）
 npm run test:run
 
-# 使用 Vitest UI 运行单元测试
+# 单元测试（UI 模式）
 npm run test:ui
 
-# 运行 Playwright 端到端测试
+# E2E 测试（Playwright）
 npm run e2e
 
-# 以 UI 模式运行 Playwright 端到端测试
+# E2E 测试（Playwright UI 模式）
 npm run e2e:ui
 ```
 
-### 构建说明
+### Vite 构建配置摘要
 
-- `dist/` 由 `npm run build` 生成，并已在 `.gitignore` 中列出。工作树中可能已存在预构建的 `dist/`，请勿将其视为源码。
-- `vite.config.ts` 手动对重依赖进行 chunk 拆分以优化缓存：
+- 插件：`@vitejs/plugin-vue`、`@tailwindcss/vite`
+- 手动分包：
   - `three`
   - `gsap`
-  - `lenis`（同时匹配 `@studio-freight/lenis` 与 `lenis`）
-- `optimizeDeps.include` 预打包 `three`、`gsap` 与 `@studio-freight/lenis`。
-- `chunkSizeWarningLimit` 设置为 `500`（kB）。
+  - `lenis`
+- `chunkSizeWarningLimit: 500`
+- `optimizeDeps.include`: `['three', 'gsap', '@studio-freight/lenis']`
 
-## 代码风格指南
+---
 
-- **单文件组件风格：** 所有 Vue 组件均使用 `<script setup lang="ts">`。
-- **样式：** 组件样式几乎均为 `scoped`。Tailwind v4 工具类通过 `src/style.css` 全局可用。
-- **CSS 变量 / Token：** 全局设计 token 定义在 `src/style.css` 中，例如：
+## 5. 代码风格指南
+
+### Vue / TypeScript
+
+- 统一使用 **Composition API** + `<script setup lang="ts">`。
+- 类型定义集中在 `src/config.ts`；新增内容字段优先扩展该文件中的接口与配置对象。
+- 组件样式使用 **`<style scoped>`**。
+- 命名类名时使用 BEM-like 前缀，例如 `.site-nav__link`、`.hero-field__cta`。
+- 避免在组件中硬编码文案；文案应来自 `config.ts` 的对应配置对象。
+
+### 样式
+
+- Tailwind CSS v4 在 `src/style.css` 中通过 `@import "tailwindcss";` 引入。
+- 设计 Token 通过 CSS 自定义属性管理，例如：
   - `--color-bg-primary: #050A0F`
   - `--color-text-primary: #EDE8E4`
   - `--color-accent: #30B0D0`
-- **类名规范：** 组件使用类似 BEM 的命名约定，例如 `.immersive-gallery__project-title`。
-- **响应式断点：** 主要移动端断点为 `768px`；媒体查询内联在 scoped 样式中。
-- **排版：** 标题使用 `'Noto Serif SC', Georgia, serif`；正文使用 `'Noto Sans SC', 'Helvetica Neue', Arial, sans-serif`。
-- **CSS 与 JS 绑定：** 部分组件在 scoped CSS 中使用 `v-bind()` 将 JS 变量同步到样式值。
-- **减少动画：** 所有动画较重的组件必须尊重 `prefers-reduced-motion: reduce`。`FluidBackground.vue`、`PhilosophyCarousel.vue`、`GooeyTextRow.vue` 与 `App.vue` 已有相关实现；新增动画时请遵循相同模式。
-- **可访问性：** 保持语义化 HTML、图片使用描述性 `alt` 文本、可见的 `focus-visible` 样式，并为非原生按钮的交互元素提供键盘事件处理（`Enter` / `Space`）。
+- 站点为**深色主题**，禁止引入高饱和、模板化配色。
+- 字体类：
+  - `.font-serif-display` → Noto Serif SC
+  - `.font-sans-body` → Noto Sans SC
+- 移动端断点：`max-width: 768px`。
 
-## 测试说明
+### 交互与动效
 
-### 单元测试（Vitest）
+- 所有动画必须响应 `prefers-reduced-motion: reduce`：
+  - 已在 `App.vue`（Lenis）、`FluidBackground.vue`（渲染循环）、`PhilosophyCarousel.vue`（旋转环）、`GooeyTextRow.vue`（hover 动画）中处理。
+  - 全局 CSS 在 `style.css` 的 `@media (prefers-reduced-motion: reduce)` 中强制缩短动画时长。
+- 关键交互元素（按钮、链接）需有清晰的 `:focus-visible` 样式。
+- 图片必须有描述性 `alt` 文本。
+- 可点击的 `div` 需设置 `tabindex="0"`、`role="button"`，并支持 `keydown.enter` / `keydown.space`。
+- 链接/按钮的最小点击高度建议保持 `44px`。
+
+### 图片与静态资源
+
+- 图片统一放在 `public/images/`，代码中引用相对路径，例如 `images/project-1.jpg`。
+- Logo：`public/images/topLeftLogo.png`（导航）、`public/images/centerLogo.png`（Hero）。
+- Favicon：`public/favicon.svg`。
+
+---
+
+## 6. 测试说明
+
+### 单元/组件测试（Vitest）
 
 - 配置：`vitest.config.ts`
 - 环境：`happy-dom`
-- 已启用全局模式（每个文件无需导入 `describe`、`it`、`expect`）。
+- 全局 API：`globals: true`
 - 初始化文件：`src/__tests__/setup.ts`
-- 测试匹配模式：`src/**/*.spec.ts`
-- 测试中禁用 CSS 处理（`css: false`）。
+- 测试匹配：`src/**/*.spec.ts`
 
-当前单元测试：
-- `src/__tests__/config.spec.ts` —— 校验所有配置对象与 `getProjectById()`。
-- `src/__tests__/components/Navigation.spec.ts` —— 校验品牌渲染与锚点 `href` 值。
-- `src/__tests__/components/Footer.spec.ts` —— 校验愿景文案、品牌名、版权信息、栏目与链接。
+当前已有测试覆盖：
 
-使用 `npm run test`（监听模式）或 `npm run test:run`（CI）运行。
+- `src/__tests__/config.spec.ts`：校验所有配置对象及 `getProjectById`
+- `src/__tests__/components/Navigation.spec.ts`：导航 Logo、链接、href
+- `src/__tests__/components/Footer.spec.ts`：页脚文案、栏目、链接
 
-### 端到端测试（Playwright）
+运行示例：
+
+```bash
+npm run test:run
+```
+
+### E2E 测试（Playwright）
 
 - 配置：`playwright.config.ts`
 - 测试目录：`e2e/`
-- 浏览器：仅 Chromium（`Desktop Chrome`）。
-- 基础 URL：`http://localhost:5173`
-- Playwright 自动启动 `npm run dev` 作为 Web 服务器。
-- CI 行为：当 `process.env.CI` 设置时，启用 `forbidOnly`、2 次重试、1 个 worker。
-- 报告器：HTML（`playwright-report/index.html`）。
+- 浏览器：Desktop Chromium
+- Base URL：`http://localhost:5173`
+- 会自动启动 `npm run dev` 作为 webServer
 
-当前 E2E 测试（`e2e/navigation.spec.ts`）覆盖：
-- 首页品牌可见性。
-- 导航链接数量与标签。
-- 主标题存在性。
-- 画廊卡片渲染。
-- 点击项目标题进入项目详情视图。
-- 返回按钮流程目前标记为 `test.fixme`，原因是 Lenis 平滑滚动冲突。
+当前测试：
 
-使用 `npm run e2e` 或 `npm run e2e:ui` 运行。
+- `e2e/navigation.spec.ts`：首页导航、Hero 内容、画廊卡片、进入项目详情。
+- 其中「详情页点击返回回到首页」用例标记为 `test.fixme`，原因：Lenis 平滑滚动与自动化测试中的 `window.scrollTo` 行为存在冲突，后续可优化 `handleBack` 的滚动恢复逻辑。
 
-### 已知的测试覆盖缺口
+运行示例：
 
-以下内容目前未被自动化测试覆盖：
-- `FluidBackground.vue` 的 WebGL 渲染。
-- GSAP / ScrollTrigger 动画行为。
-- Lenis 平滑滚动交互。
-- 响应式断点。
-- 基础键盘导航之外的可访问性。
+```bash
+npm run e2e
+npm run e2e:ui
+```
 
-## 部署流程
+### 新增测试建议
 
-- 项目生成标准的静态 Vite SPA。运行 `npm run build`，然后部署 `dist/` 内容即可。
-- 仓库中 **没有 CI/CD 配置**（没有 `.github/workflows/`、没有 Docker、没有 `vercel.json` 或 `netlify.toml` 等平台专属配置文件）。
-- 除 `playwright.config.ts` 中使用 `process.env.CI` 外，**没有使用其他环境变量**。不存在 `.env` 文件，代码中也不使用 `import.meta.env` 或 `VITE_*` 变量。
-- 静态图片位于 `public/images/`，构建时原样复制到 `dist/images/`。
-- `index.html` 通过 `preconnect` 从 `https://fonts.googleapis.com` 与 `https://fonts.gstatic.com` 加载 Google Fonts。
+- 新增配置字段时，在 `config.spec.ts` 中补充断言。
+- 新增可交互组件时，优先编写组件级 Vitest 测试，覆盖渲染、事件、边界条件。
+- 涉及滚动/动画的关键路径可补充 Playwright E2E，但需注意 `prefers-reduced-motion` 与 Lenis 对自动化断言的影响。
 
-## 安全注意事项
+---
 
-### 已落实的良好实践
+## 7. 部署说明
 
-- 源码中未使用 `v-html`、`innerHTML`、`document.write`、`eval()` 或 `Function()`。
-- 没有运行时网络请求（`fetch`、`axios`、`XMLHttpRequest`）；所有数据均为静态配置。
-- 未从不受信任的输入动态注入 `href` / `src`。
-- 图片均具有 `alt` 属性。
-- 交互式自定义元素（画廊项、`GooeyTextRow`）使用了 `role="button"`、`tabindex="0"` 与键盘事件处理。
-- `App.vue` 中提供了跳转到主内容的 skip link。
+- 本项目是纯前端静态 SPA，部署产物为 `dist/` 目录。
+- 构建命令：
+  ```bash
+  npm run build
+  ```
+- 可将 `dist/` 部署到任意静态托管服务（Netlify、Vercel、GitHub Pages、CDN 等）。
+- 由于使用锚点导航，无需服务器端路由。
+- 若未来增加路由，请确保服务器对所有路径回退到 `index.html`。
 
-### 缺口与建议
+---
 
-- **未配置 Content-Security-Policy（CSP）** 元标签或响应头。
-- **未配置安全响应头**，例如 `X-Frame-Options`、`X-Content-Type-Options`、`Referrer-Policy`。
-- 外部资源（Google Fonts）加载未使用 Subresource Integrity（SRI）；动态 CSS 通常如此，但应予以记录。
-- `playwright-report/` 与 `test-results/` 目前被 Git 追踪。它们属于构建/测试产物，通常应加入 `.gitignore`。
-- `dist/` 已在 `.gitignore` 中，但可能已存在于工作树；CI 中应重新生成构建，而非依赖本地输出。
-- `footerConfig.videoPath` 当前为空字符串，因此页脚 `<video>` 元素永远不会渲染。如果后续填充，请验证并清理来源 URL。
+## 8. 安全注意事项
 
-## 重要实现说明
+- **纯静态站点**：无后端、无认证、无数据库，不处理敏感用户输入。
+- **WebGL/Three.js**：`FluidBackground.vue` 中的 Shader 仅接收鼠标指针坐标和固定 uniform，不执行任何动态代码或外部输入，无 XSS 风险。
+- **外部资源**：页面从 `https://fonts.googleapis.com` 加载字体；请确保部署环境允许访问该域名，或在 CSP 中正确放行。
+- **无环境密钥**：仓库中不存在 `.env` 或 API Key；静态资源均直接放在 `public/`。
+- **依赖安全**：建议定期运行 `npm audit`，并及时升级 `three`、`gsap`、`vue` 等核心依赖。
 
-- **Lenis + GSAP ScrollTrigger：** `App.vue` 初始化 Lenis 并通过 GSAP ticker 驱动。ScrollTrigger 已全局注册。新增滚动驱动动画时，请确保在 `onUnmounted` 中清理，并尊重 `prefers-reduced-motion`。
-- **流体背景生命周期：** `App.vue` 通过 `IntersectionObserver` 观察 `FluidBackground.vue`。当 `#hero-section`、`#philosophy` 或 `#gallery` 可见时（`threshold: 0.05`），背景处于激活状态；项目详情打开时也会被强制激活。
-- **项目详情滚动恢复：** 关闭项目详情时，`App.vue` 会在 `requestAnimationFrame` 中从保存的值恢复 `window.scrollY`。这是已知的 `test.fixme` E2E 问题的根源；修改导航或滚动行为时应谨慎处理。
-- **Tailwind v4：** 项目使用 Tailwind CSS v4 与新 Vite 插件。除非有意迁移到 v4 之前的基于 CSS 的配置，否则请勿添加 `tailwind.config.js`。
+---
 
-## 常用参考
+## 9. 给 Agent 的实操提示
 
-| 用途 | 文件 |
-|---|---|
-| 包脚本与依赖 | `package.json` |
-| Vite 构建配置 | `vite.config.ts` |
-| Vitest 配置 | `vitest.config.ts` |
-| Playwright 配置 | `playwright.config.ts` |
-| 站点内容与类型 | `src/config.ts` |
-| 根组件 / 滚动编排 | `src/App.vue` |
-| 全局样式与设计 token | `src/style.css` |
-| SPA 外壳与字体 | `index.html` |
-| 产品需求 | `PRODUCT.md` |
+- **改文案**：优先改 `src/config.ts`，而不是组件模板。
+- **新增项目**：在 `src/config.ts` 的 `galleryConfig.projects` 中追加项目数据，并将图片放入 `public/images/`。
+- **新增区块**：在 `src/sections/` 新建组件，在 `App.vue` 中引入并放置到合适位置；保持 `z-index` 与现有层级一致。
+- **改导航/页脚**：数据来自 `navigationConfig` / `footerConfig`。
+- **动效修改**：必须同时考虑 `prefers-reduced-motion` 分支。
+- **流体背景修改**：保留 `isActive` prop 和 `IntersectionObserver` 逻辑，避免持续全屏渲染导致性能问题。
+- **避免引入 Vue Router**：当前架构没有路由；若确需路由，应评估对平滑滚动、锚点和 E2E 测试的影响。

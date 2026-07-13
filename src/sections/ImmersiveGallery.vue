@@ -1,27 +1,14 @@
 <script setup lang="ts">
 import { galleryConfig } from '../config'
 
-const textShadow = '0 2px 24px rgba(0,0,0,0.45)'
+const textShadow = '0 2px 24px var(--color-shadow)'
 const PROJECTS = galleryConfig.projects
 
 const emit = defineEmits<{
   select: [id: string]
 }>()
 
-const marginTops = [0, '-55vh', '-20vh', '-45vh']
-
-const onImgEnter = (e: Event) => {
-  ;(e.target as HTMLElement).style.transform = 'scale(1.03)'
-}
-const onImgLeave = (e: Event) => {
-  ;(e.target as HTMLElement).style.transform = 'scale(1)'
-}
-const onTitleEnter = (e: MouseEvent) => {
-  ;(e.currentTarget as HTMLElement).style.borderBottomColor = 'rgba(255,255,255,0.55)'
-}
-const onTitleLeave = (e: MouseEvent) => {
-  ;(e.currentTarget as HTMLElement).style.borderBottomColor = 'transparent'
-}
+const rowOffsets = [0, '16vh', 0, '16vh']
 </script>
 
 <template>
@@ -50,10 +37,8 @@ const onTitleLeave = (e: MouseEvent) => {
         :key="project.id"
         class="immersive-gallery__project"
         :style="{
-          justifyContent: i % 2 === 0 ? 'flex-start' : 'flex-end',
-          marginTop: marginTops[i] ?? 0,
-          paddingLeft: i % 2 === 0 ? '5vw' : '40vw',
-          paddingRight: i % 2 === 0 ? '40vw' : '5vw',
+          justifySelf: i % 2 === 0 ? 'start' : 'end',
+          marginTop: rowOffsets[i] ?? 0,
         }"
       >
         <div class="immersive-gallery__project-inner">
@@ -72,8 +57,6 @@ const onTitleLeave = (e: MouseEvent) => {
               height="900"
               class="immersive-gallery__image"
               loading="lazy"
-              @mouseenter="onImgEnter"
-              @mouseleave="onImgLeave"
             />
           </div>
 
@@ -83,13 +66,12 @@ const onTitleLeave = (e: MouseEvent) => {
               <div
                 class="font-sans-body immersive-gallery__project-id"
               >
-                {{ project.id }}
+                <!-- {{ project.id }} -->
               </div>
               <button
                 class="font-serif-display immersive-gallery__project-title"
+                :aria-label="`查看 ${project.title} 详情`"
                 @click="emit('select', project.id)"
-                @mouseenter="onTitleEnter"
-                @mouseleave="onTitleLeave"
               >
                 {{ project.title }}
               </button>
@@ -130,7 +112,7 @@ const onTitleLeave = (e: MouseEvent) => {
 .immersive-gallery__section-label {
   font-size: 10px;
   letter-spacing: 0.25em;
-  color: rgba(255,255,255,0.55);
+  color: var(--color-white-65);
   text-transform: uppercase;
   margin-bottom: 16px;
   text-shadow: v-bind(textShadow);
@@ -139,7 +121,7 @@ const onTitleLeave = (e: MouseEvent) => {
 .immersive-gallery__title {
   font-size: clamp(28px, 4vw, 48px);
   font-weight: 200;
-  color: #ffffff;
+  color: var(--color-white);
   letter-spacing: 0.05em;
   line-height: 1.2;
   margin: 0;
@@ -149,15 +131,19 @@ const onTitleLeave = (e: MouseEvent) => {
 .immersive-gallery__projects {
   position: relative;
   padding: 0 2rem;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 10vh 6vw;
 }
 
 .immersive-gallery__project {
+  justify-content: center;
   display: flex;
+  width: 100%;
 }
 
 .immersive-gallery__project-inner {
-  width: 45vw;
-  max-width: 600px;
+  width: min(45vw, 560px);
 }
 
 .immersive-gallery__image-wrapper {
@@ -170,8 +156,13 @@ const onTitleLeave = (e: MouseEvent) => {
 
 .immersive-gallery__image-wrapper:focus-visible,
 .immersive-gallery__project-title:focus-visible {
-  outline: 1px solid rgba(255,255,255,0.5);
+  outline: 1px solid var(--color-white-50);
   outline-offset: 4px;
+}
+
+.immersive-gallery__image-wrapper:hover .immersive-gallery__image,
+.immersive-gallery__image-wrapper:focus-visible .immersive-gallery__image {
+  transform: scale(1.03);
 }
 
 .immersive-gallery__image {
@@ -192,7 +183,7 @@ const onTitleLeave = (e: MouseEvent) => {
 .immersive-gallery__project-id {
   font-size: 10px;
   letter-spacing: 0.2em;
-  color: rgba(255,255,255,0.6);
+  color: var(--color-white-65);
   text-transform: uppercase;
   margin-bottom: 8px;
   text-shadow: v-bind(textShadow);
@@ -201,7 +192,7 @@ const onTitleLeave = (e: MouseEvent) => {
 .immersive-gallery__project-title {
   font-size: 20px;
   font-weight: 300;
-  color: #ffffff;
+  color: var(--color-white);
   letter-spacing: 0.08em;
   margin: 0;
   text-shadow: v-bind(textShadow);
@@ -216,6 +207,12 @@ const onTitleLeave = (e: MouseEvent) => {
   font-family: inherit;
   text-align: left;
   min-height: 44px;
+  outline: none;
+}
+
+.immersive-gallery__project-title:hover,
+.immersive-gallery__project-title:focus-visible {
+  border-bottom-color: var(--color-white-55);
 }
 
 .immersive-gallery__project-info {
@@ -225,31 +222,38 @@ const onTitleLeave = (e: MouseEvent) => {
 .immersive-gallery__project-location {
   font-size: 10px;
   letter-spacing: 0.15em;
-  color: rgba(255,255,255,0.6);
+  color: var(--color-white-65);
   text-shadow: v-bind(textShadow);
 }
 
 .immersive-gallery__project-year {
   font-size: 10px;
   letter-spacing: 0.15em;
-  color: rgba(255,255,255,0.6);
+  color: var(--color-white-65);
   margin-top: 4px;
   text-shadow: v-bind(textShadow);
 }
 
 @media (max-width: 768px) {
+  .immersive-gallery__projects {
+    grid-template-columns: 1fr;
+    gap: 8vh;
+  }
+
   .immersive-gallery__project {
-    padding-left: 5vw !important;
-    padding-right: 5vw !important;
+    justify-self: center !important;
     margin-top: 0 !important;
   }
+
   .immersive-gallery__project-inner {
     width: 90vw;
     max-width: none;
   }
+
   .immersive-gallery__header {
     padding: 0 5vw;
   }
+
   .immersive-gallery__projects {
     padding: 0 5vw;
   }

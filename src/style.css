@@ -7,11 +7,42 @@
     --color-bg-secondary: #0A141F;
     --color-text-primary: #EDE8E4;
     --color-text-secondary: rgba(237, 232, 228, 0.75);
+    --color-text-tertiary: rgba(237, 232, 228, 0.65);
     --color-text-muted: rgba(237, 232, 228, 0.5);
     --color-text-faint: rgba(237, 232, 228, 0.35);
     --color-accent: #30B0D0;
+    --color-accent-soft: rgba(48, 176, 208, 0.6);
+    --color-accent-subtle: rgba(48, 176, 208, 0.4);
+    --color-white: #FFFFFF;
+    --color-white-85: rgba(255, 255, 255, 0.85);
+    --color-white-75: rgba(255, 255, 255, 0.75);
+    --color-white-60: rgba(255, 255, 255, 0.6);
+    --color-white-55: rgba(255, 255, 255, 0.55);
+    --color-white-50: rgba(255, 255, 255, 0.5);
+    --color-white-88: rgba(255, 255, 255, 0.88);
+    --color-white-82: rgba(255, 255, 255, 0.82);
+    --color-white-80: rgba(255, 255, 255, 0.80);
+    --color-white-65: rgba(255, 255, 255, 0.65);
+    --color-white-40: rgba(255, 255, 255, 0.40);
+    --color-white-18: rgba(255, 255, 255, 0.18);
+    --color-white-08: rgba(255, 255, 255, 0.08);
+    --color-white-06: rgba(255, 255, 255, 0.06);
+    --color-white-02: rgba(255, 255, 255, 0.02);
+    --color-bg-glass: rgba(5, 10, 15, 0.25);
     --color-border: rgba(255, 255, 255, 0.08);
     --color-border-light: rgba(255, 255, 255, 0.18);
+    --color-border-strong: rgba(255, 255, 255, 0.5);
+    --color-shadow: rgba(0, 0, 0, 0.45);
+
+    /* Radius tokens */
+    --radius-sm: 4px;
+    --radius-md: 0.625rem;
+    --radius-lg: 12px;
+    --radius-pill: 40px;
+
+    /* Icon / symbol size tokens */
+    --font-size-icon-sm: 1.5rem;
+    --font-size-icon-md: 1.75rem;
 
     /* Tailwind v4 semantic tokens */
     --background: 210 33% 4%;
@@ -42,13 +73,13 @@
 
   body {
     font-family: 'Noto Sans SC', 'Helvetica Neue', Arial, sans-serif;
-    background-color: #050A0F;
-    color: #EDE8E4;
+    background-color: var(--color-bg-primary);
+    color: var(--color-text-primary);
     overflow-x: hidden;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     font-weight: 400;
-    font-size: 16px;
+    font-size: 15px;
     line-height: 1.8;
     letter-spacing: 0.02em;
     margin: 0;
@@ -58,6 +89,22 @@
   h1, h2, h3, h4, h5, h6 {
     font-family: 'Noto Serif SC', 'Georgia', serif;
     word-break: keep-all;
+    text-wrap: balance;
+  }
+
+  p {
+    text-wrap: pretty;
+  }
+
+  /* Globally hide the blinking text cursor on non-editable content */
+  * {
+    caret-color: transparent;
+  }
+
+  input,
+  textarea,
+  [contenteditable] {
+    caret-color: auto;
   }
 }
 
@@ -75,8 +122,8 @@
     top: -40px;
     left: 0;
     z-index: 9999;
-    background: #ffffff;
-    color: #050A0F;
+    background: var(--color-white);
+    color: var(--color-bg-primary);
     padding: 8px 16px;
     font-size: 13px;
     text-decoration: none;
@@ -85,6 +132,20 @@
 
   .skip-link:focus {
     top: 0;
+  }
+
+  /* Prevent decorative labels/eyebrows from showing a text cursor on mobile */
+  [class$="__label"],
+  [class$="__eyebrow"],
+  [class$="__section-label"],
+  [class$="__project-id"],
+  [class$="__project-location"],
+  [class$="__project-year"],
+  [class$="__meta-label"],
+  [class$="__counter"],
+  [class$="__id"] {
+    user-select: none;
+    caret-color: transparent;
   }
 }
 
